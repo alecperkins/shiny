@@ -19,6 +19,8 @@ Shiny categorizes selectors, similar to SMACCS, and differentiates them with syn
 
 For example, the `Item` module contains components like `ItemCover` and `ItemTitle`. The `Item` module has variants like `-intrinsic_ratio` and `-size--half`. The `ItemCover` has variants like `-height--half` and `-height--twothirds`, among others. Variants MUST start with a `-`, and any class name that starts with a `-` MUST NOT be at root level. This guards against leaking variants, while avoiding the cumbersome, extra-long selectors of the BEM style. The modules, components, and variants are defined using placeholder classes. This way, they can be extended by semantic classes in the desired combinations. 
 
+Another way to think about it is all “things” are camelcase, presentational tweaks are hyphens and underscores, and states are `data-` attributes.
+
 ### Module
 
 The Module is the primary object. It SHOULD represent a reusable portion of an interface that serves as a single concept. It likely corresponds to a significant portion of the backend, or of front-end scripting as well.
@@ -55,7 +57,7 @@ Sometimes you just need a non-semantic class in the markup, like a wrapper for c
 
 ## On the naming
 
-The names “module” and “component” are chosen over “block” and “element”, since those have other meanings in this context (display: block, content block, HTML element). “Module” and “component” also correlate with the same JavaScript concepts. “Variant” was chosen over “modifier” since that’s a little too close to “module”. Why CamelCase? It helps to differentiate, and establish that this thing is a *thing*. Also, it stands out in normal text without additional formatting, making the modules and components easier to write about—important for documentation. An added bonus, the modules can easily correspond to related JavaScript/CoffeeScript class names.
+The names “module” and “component” are chosen over “block” and “element”, since those have other meanings in this context (display: block, content block, HTML element). “Module” and “component” also correlate with the same JavaScript concepts. “Variant” was chosen over “modifier” since that’s a little too close to “module”. Why CamelCase? It helps to differentiate, and establish that this thing is a *thing*. Also, it stands out in normal text without additional formatting, making the modules and components easier to write about—important for documentation. An added bonus, the modules can easily correspond to related JavaScript/CoffeeScript class names. There is not a distinction between module and component names, aside from the [Smurf prefixing](http://www.codinghorror.com/blog/2012/07/new-programming-jargon.html), because the differences are potentially fuzzy. Having all “things” be named in that style keeps it simpler.
 
 ## Example
 
