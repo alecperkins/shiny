@@ -1,0 +1,32 @@
+=extends($module_name, $variants...)
+    @extend %#{ $module_name }
+    @each $variant in $variants
+        @if type_of($variant) == 'list'
+            $variant: #{ nth($variant, 1) }--#{ nth($variant, 2) }
+        @extend %#{ $module_name }%-#{ $variant }
+
+
+// Based on Scott Kellum’s BEM helpers
+// https://gist.github.com/scottkellum/6994632
+
+// To be enabled with Sass 3.3
+    =pcomponent($name)
+        @at-root #{&}#{$name}
+            @content
+    =pvariant($name, $val: false)
+        @if $val
+            $val: --#{ $val }
+        @else
+            $val: ''
+        @at-root #{&}%-#{$name}#{ $val }
+            @content
+    =component($name)
+        @at-root #{&}#{$name}
+            @content
+    =variant($name, $val: false)
+        @if $val
+            $val: --#{ $val }
+        @else
+            $val: ''
+        @at-root #{&}.-#{$name}#{ $val }
+            @content
