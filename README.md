@@ -146,7 +146,7 @@ Not terrible, but certainly less semantic. The variants can of course be extende
 
 
 ## Module spec helpers
-Using the placeholders does get a bit repetitive. Shiny includes helpers.
+Using the placeholders does get a bit repetitive. Shiny includes helpers. The `+extends` mixin takes a module name and any variants. For subvariants, separate the variant group and the variant value with a space.
 
 So these extends:
 ```sass
@@ -161,6 +161,13 @@ become:
 .IssueContents
     +extends(Container, full, spaceless)
 ```
+
+Subvariants work like this:
+```sass
+.Story
+    +extends(Item, size half)
+```
+
 
 
 Shiny.
