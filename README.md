@@ -2,7 +2,7 @@
 
 *(Some early thoughts, still rough, suggestions for improvement very welcome!)*
 
-*Shiny* is a style of writing [Sass](http://sass-lang.com), a preprocessor language for CSS. It looks at styles like [BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/) and [SMACSS](http://smacss.com) and appreciates the concepts, but says “No thanks, there must be a smoother way”.
+*Shiny* is a style of writing [Sass](http://sass-lang.com), a preprocessor language for CSS. It looks at styles like [BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/) and [SMACSS](http://smacss.com) and appreciates the concepts, but says “No thanks, there must be a smoother way”. (Takes some inspiration from [SUCKS](https://github.com/Team-Sass/SUCKS/blob/sam/thoughts.md).)
 
 Shiny categorizes selectors, similar to SMACCS, and differentiates them with syntax, simliar to BEM. Unlike SMACSS and BEM, it takes more direct advantage of the `@extend` directive of Sass. This allows for avoiding chaining selectors as much as possible, or needing to combine the selectors into one long selector. Instead, presentational placeholders can be brought together under semantic classes. The `sass-shiny` package includes some helpers to do just that.
 
