@@ -54,6 +54,71 @@ State selectors are used to specify presentation based on state. Some states, li
 
 Sometimes you just need a non-semantic class in the markup, like a wrapper for centering something. When this is the case, the class name SHOULD be prefixed with an `H-`. This indicates that the class is deliberately non-semantic.
 
+### Docs
+
+Docs are an important part of code. They explain the why, and when passed through a processor provide a good place to put example usage. This allows for automatic generation of artifacts like a styleguide. To that end, Shiny has a preferred style of writing docs, and includes a styleguide generator.
+
+The primary definition of each module and component MUST be introduced with a comment section that describes what the module is, how it is used, and includes example markup. It also SHOULD include the variants for that module or component. The comments MUST be the inline style, even as a block, with each line beginning with `//`. (This is a limitation of the parsing more than anything. Hopefully this will be updated to allow for block comments of both styles.)
+[Markdown](http://daringfireball.net/projects/markdown/) syntax MUST be used for the comments.
+Each primary comment section MUST start with a heading and the module or component name (`# ModuleName module`), and SHOULD indicate if it is a module or component. Example markup MUST be added using backticks, and SHOULD indicate that it is HTML, using the [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown) method.
+
+For example, a primary comment for a component that includes variants and
+example markup:
+
+    // # ItemCover component
+    //
+    // An optional component of the Item module that displays a cover image. It
+    // uses the `style=""` attribute and the `background-image: url()` rule
+    // instead of an `img` in order to control the aspect ratio.
+    //
+    // The cover MAY contain other components, like ItemSupertitle and ItemTitle,
+    // even ItemDeck, grouped in an ItemInfo component. The ItemInfo allows for
+    // positioning the interior components as a group.
+    //
+    // ```html
+    // <div class="Item">
+    //     <div class="ItemCover -height--half" style="background-image: url(http://placepuppy.it/800/600/)">
+    //         <div class="ItemInfo">
+    //             <div class="ItemSupertitle">Supertitle</div>
+    //             <h2 class="ItemTitle">Title</h2>
+    //         </div>
+    //     </div>
+    // </div>
+    // ```
+    //
+    // ## Variants
+    //
+    // ### `-height--*`
+    //
+    // The actual height of the cover is dependent on the size of the Item it is
+    // inside. It can be controlled with the `-height--half` and
+    // `-height--twothirds` variants, which set the cover to half or twothirds of
+    // its usual height.
+    //
+    // The parent Item MAY have a variant like `-intrinsic_ratio`, which causes
+    // the ItemCover to instead scale with a consistent aspect ratio. This variant
+    // is on the item since it requires an additional wrapper around the cover,
+    // the ItemCoverWrapper component. If this is active, then the `-height--*`
+    // variants don’t make much sense and SHOULD NOT be used.
+    //
+    // #### `-height--half`
+    //
+    // ```html
+    // <div class="Item -size--small">
+    //     <div class="ItemCover -height--half" style="background-image: url(http://placepuppy.it/800/600/)">
+    //         <div class="ItemInfo">
+    //             <div class="ItemSupertitle">Supertitle</div>
+    //             <h2 class="ItemTitle">Title</h2>
+    //         </div>
+    //     </div>
+    // </div>
+    // ```
+    %ItemCover
+    <the actual component code>
+
+The example markup will be turned into live examples, as well as viewable source. The actual source of the module or component will also be included in an expandable section. All headings will be given deep links using anchors based on their content.
+
+The generator makes some assumptions about the structure of the docs. If the styleguide output seems weird, the code probably is, too. The code itself SHOULD also have inline comments as appropriate. These will be passed through and included in the styleguide.
 
 ## On the naming
 

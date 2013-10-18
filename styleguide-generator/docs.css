@@ -1,0 +1,53 @@
+body {
+    max-width: 1280px;
+    padding: 1em 3em;
+    margin: 0 auto;
+}
+.BlockSource, .ExampleSource {
+    display: block;
+    overflow: scroll;
+    box-sizing: border-box;
+}
+.DocItem {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+.Example {
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+.DocSnippet {
+    max-width: 600px;
+}
+.BlockToggler {
+    float: right;
+}
+.ExampleDeepLink {
+    margin-left: -1em;
+    font-size: 1rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+[data-collapsed="true"] {
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    pointer-events: none;
+}
+[data-collapsed="true"]:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, #ffffff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,#ffffff 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,#ffffff 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,#ffffff 100%); /* W3C */
+
+}
