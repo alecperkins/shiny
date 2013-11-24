@@ -1,6 +1,20 @@
 # Styleguide Generator Prototype
 
-# TODO: Element states, file specification, base template
+# TODO: Element states, file specification, base template, manifest for explicit control of the styleguide structure
+###
+index.yaml
+- Item:
+    - ItemCover
+    - ItemTitle
+    - ItemSubtitle
+- Container
+
+- Button:
+    - :disabled
+    - [data-active="true"]
+###
+# Instead, for state, look for a heading with "State", then the headings of each subsequent one is a state class, and use extends to generate selectors to force the state in documentation.
+# But how does it know what markup to use? Require an ```html block for that section? Or does it use the first, "default" example?
 
 # Temporary hardcoding of operands.
 TARGET_FILE = 'source/_Item.sass'

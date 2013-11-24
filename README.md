@@ -2,11 +2,17 @@
 
 *(Some early thoughts, still rough, suggestions for improvement very welcome!)*
 
-*Shiny* is a style of writing [Sass](http://sass-lang.com), a preprocessor language for CSS. It looks at styles like [BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/) and [SMACSS](http://smacss.com) and appreciates the concepts, but says “No thanks, there must be a smoother way”. (Takes some inspiration from [SUCKS](https://github.com/Team-Sass/SUCKS/blob/sam/thoughts.md).)
+*Shiny* is a method of writing [Sass](http://sass-lang.com), a preprocessor language for CSS. It combines ideas from [BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/) and [SMACSS](http://smacss.com), with a little inspiration from [SUCKS](https://github.com/Team-Sass/SUCKS/blob/sam/thoughts.md).
 
-Shiny categorizes selectors, similar to SMACCS, and differentiates them with syntax, simliar to BEM. Unlike SMACSS and BEM, it takes more direct advantage of the `@extend` directive of Sass. This allows for avoiding chaining selectors as much as possible, or needing to combine the selectors into one long selector. Instead, presentational placeholders can be brought together under semantic classes. The `sass-shiny` package includes some helpers to do just that.
+Shiny categorizes selectors, similar to SMACSS, and differentiates them with syntax, simliar to BEM. Unlike SMACSS and BEM, it takes more direct advantage of the `@extend` directive of Sass. This allows for avoiding chaining selectors as much as possible, or needing to combine the selectors into one long selector. Instead, presentational placeholders can be brought together under semantic classes. The `sass-shiny` package includes some helpers to do just that.
+
+http://semver.org/
 
 ## Spec
+
+
+
+### Modules
 
     module              : Module
     module component    : ModuleComponent
@@ -17,24 +23,38 @@ Shiny categorizes selectors, similar to SMACCS, and differentiates them with syn
     built-in state      : :disabled
     helper              : H-Helper
 
-For example, the `Item` module contains components like `ItemCover` and `ItemTitle`. The `Item` module has variants like `-intrinsic_ratio` and `-size--half`. The `ItemCover` has variants like `-height--half` and `-height--twothirds`, among others. Variants MUST start with a `-`, and any class name that starts with a `-` MUST NOT be at root level. This guards against leaking variants, while avoiding the cumbersome, extra-long selectors of the BEM style. The modules, components, and variants are defined using placeholder classes. This way, they can be extended by semantic classes in the desired combinations. 
+For example, the `Item` module contains components like `ItemCover` and `ItemTitle`. The `Item` module has variants like `-intrinsic_ratio` and `-size--half`. The `ItemCover` has variants like `-height--half` and `-height--twothirds`, among others. Variants MUST start with a `-`, and any class name that starts with a `-` MUST NOT be at root level. This guards against leaking variant styles, while avoiding the cumbersome, extra-long selectors of the BEM method. The modules, components, and variants are defined using placeholder classes. This way, they can be extended by semantic classes in the desired combinations. 
 
 Another way to think about it is all “things” are camelcase, presentational tweaks are hyphens and underscores, and states are `data-` attributes.
 
-### Module
+#### Module
 
 The Module is the primary object. It SHOULD represent a reusable portion of an interface that serves as a single concept. It likely corresponds to a significant portion of the backend, or of front-end scripting as well.
 
 Module classes MUST be written using camelcase: `ModuleName`
-Internal modules and components, that are not intended to be extended by others, SHOULD be prefixed with an `_`, eg `%_ItemComponent`. 
+Internal modules and components, that are not intended to be extended by others, SHOULD be prefixed with an `_`, eg `%_Item` or `%_Item-Component`. 
 
-### Component
+#### Component
 
 Components are internal elements specific to a particular module. They MAY have subcomponents.
 
-Component classes MUST be written using camelcase: `ModuleNameComponent`. These classes SHOULD be written prefixed with the name of the module they belong to. They SHOULD NOT be nested under the Module class unnecessarily.
+Component classes MUST be written using camelcase, but with the module name separated with a hyphen: `Module-NameComponent`. These classes SHOULD be written prefixed with the name of the module they belong to. They SHOULD NOT be nested under the Module class unnecessarily.
+`Item-Component`
 
-### Variant
+Good:
+
+```sass
+.Item
+    // properties
+
+.Item-Component
+    // properties
+
+```
+
+
+
+#### Variant
 
 Variants are classes that adjust the presentation of the module. They MAY be exclusive to each other, or MAY be combined, depending on the rules they contain. Some variants are singular, like switching the variant on. Other variants are part of a group, and each “subvariant” is conceptually like setting a value to a property. Subvariants SHOULD be exclusive within their group.
 
@@ -43,18 +63,19 @@ Variant class names
 * MUST begin with a hypen (`-`): `-variant`
 * MUST be nested under their corresponding Module: `&%-variant`
 * MAY use an underscore (`_`) to delimit words within the name: `-variant_group`
+* SHOULD be lowercase
 
 Subvariants MUST use a double hypen (`--`) to separate the variant group name and the variant “value”: `-variant_group--value`.
 
-### State
+#### State
 
 State selectors are used to specify presentation based on state. Some states, like `:hover` and `:disabled` are built-in, so those of course should be used. Other states, like `loading`, do not have a built-in pseudo selector. These states MUST be represented using `data-` attributes: `[data-loading="true"]`. These attributes are easier to manipulate in script than `is-loading`, and this method allows for more specific information, like `[data-progress="40"]`. Most importantly, using `data-` attributes clearly differentiates the state styles from the structural and other presentational styles.
 
-### Helper
+#### Helper
 
 Sometimes you just need a non-semantic class in the markup, like a wrapper for centering something. When this is the case, the class name SHOULD be prefixed with an `H-`. This indicates that the class is deliberately non-semantic.
 
-### Docs
+#### Docs
 
 Docs are an important part of code. They explain the why, and when passed through a processor provide a good place to put example usage. This allows for automatic generation of artifacts like a styleguide. To that end, Shiny has a preferred style of writing docs, and includes a styleguide generator.
 
@@ -120,9 +141,59 @@ The example markup will be turned into live examples, as well as viewable source
 
 The generator makes some assumptions about the structure of the docs. If the styleguide output seems weird, the code probably is, too. The code itself SHOULD also have inline comments as appropriate. These will be passed through and included in the styleguide.
 
+
+
+
+
+### Syntax
+
+The Sass syntax (“indented style”) is preferred, and the styles SHOULD be written. Seriously, who wants to write `@include mixin` all the time? `+mixin` is so much cleaner.
+
+### Configuration
+
+global/
+
+#### Type
+
+
+#### Color
+
+
+#### Icons
+
+
+
+
+
+### Organization
+
+global/
+    _typography.sass
+    _color
+
+Structural styles go into the `_Module.sass` file. *Look-And-Feel* (*LAF*) SHOULD go into a file named `_LAF.sass`. (“LAF” versus “theme” since words like “theme” can have other meanings in this context, like user-specific styles. LAF is more unique.)
+
+Module/_Module.sass
+Module/_LAF.sass
+
+ModuleSet/_Module.sass
+ModuleSet/_RelatedModule.sass
+ModuleSet/_LAF.sass
+_Views.sass
+or
+_Views/
+    _View1.sass
+    _View2.sass
+_LAF.sass
+screen.sass - pulls it all together
+
+#### `screen.sass`
+
 ## On the naming
 
-The names “module” and “component” are chosen over “block” and “element”, since those have other meanings in this context (display: block, content block, HTML element). “Module” and “component” also correlate with the same JavaScript concepts. “Variant” was chosen over “modifier” since that’s a little too close to “module”. Why CamelCase? It helps to differentiate, and establish that this thing is a *thing*. Also, it stands out in normal text without additional formatting, making the modules and components easier to write about—important for documentation. An added bonus, the modules can easily correspond to related JavaScript/CoffeeScript class names. There is not a distinction between module and component names, aside from the [Smurf prefixing](http://www.codinghorror.com/blog/2012/07/new-programming-jargon.html), because the differences are potentially fuzzy. Having all “things” be named in that style keeps it simpler.
+The names “module” and “component” are chosen over “block” and “element”, since those have other meanings in this context (display: block, content block, HTML element). “Module” and “component” also correlate with the same JavaScript concepts. “Variant” was chosen over “modifier” since that’s a little too close to “module”.
+
+Why CamelCase? It helps to differentiate, and establish that this thing is a *thing*. Also, it stands out in normal text without additional formatting, making the modules and components easier to write about—important for documentation. An added bonus, the modules can easily correspond to related JavaScript/CoffeeScript class names. There is not a distinction between module and component names, aside from the [Smurf prefixing](http://www.codinghorror.com/blog/2012/07/new-programming-jargon.html), because the differences are potentially fuzzy. Having all “things” be named in that style keeps it simpler.
 
 ## Example
 
@@ -212,30 +283,7 @@ The markup using the direct presentational selectors would look like:
 Not terrible, but certainly less semantic. The variants can of course be extended into a single long selector, if desired for performance reasons.
 
 
-## Module spec helpers
-Using the placeholders does get a bit repetitive. Shiny includes helpers. The `+extends` mixin takes a module name and any variants. For subvariants, separate the variant group and the variant value with a space.
-
-So these extends:
-```sass
-.IssueContents
-    @extend %Container
-    @extend %Container%-full
-    @extend %Container%-spaceless
-```
-
-become:
-```sass
-.IssueContents
-    +extends(Container, full, spaceless)
-```
-
-Subvariants work like this:
-```sass
-.Story
-    +extends(Item, size half)
-```
-
-
+- - -
 
 Shiny.
 
