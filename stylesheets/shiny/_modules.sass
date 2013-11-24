@@ -1,53 +1,221 @@
-
-@mixin extend-variants($module_name, $variants...)
+// Public: Extend only the variants of a Shiny-style module. Useful for
+//         remapping a module's variants without re-extending everything.
+//
+// $module_name     - The name of the module to extend the variants from.
+// $variants...     - A list of variants belonging to the module to extend.
+//
+// Example:
+//
+// With a module definition like so:
+//
+//     %Module
+//         font-size: 14px
+//         color: red
+//         &%-variant
+//             color: blue
+//         &%-variant_group--one
+//             font-weight: 300
+//         &%-varaint_group--two
+//             font-weight: 700
+//
+// Calling extend with the module and all its variants...
+//
+// ```sass
+// .Alpha
+//     +extend(Module)
+//     &.-featured
+//         +extend-variants(variant, variant_group one)
+// .Beta
+//     +extend(Module, variant_group two)
+// ```
+//
+// ...yields the following CSS:
+//
+// ```css
+// .Alpha, .Beta {
+//     font-size: 14px;
+//     color: red;
+// }
+// .Alpha.-featured {
+//     color: blue;
+// }
+// .Alpha.-featured {
+//     font-weight: 300;
+// }
+// .Beta {
+//     font-weight: 700; 
+// }
+// ```
+//
+// Whereas if the above `+extend-variants` were just `+extends`, the CSS
+// output would be:
+//
+// ```css
+// .Alpha, .Alpha.-featured, .Beta {
+//     font-size: 14px;
+//     color: red;
+// }
+// .Alpha.-featured {
+//     color: blue;
+// }
+// .Alpha.-featured {
+//     font-weight: 300;
+// }
+// .Beta {
+//     font-weight: 700; 
+// }
+// ```
+//
+=extend-variants($module_name, $variants...)
     @each $variant in $variants
-        @if type_of($variant) == 'list'
-            $variant: #{ nth($variant, 1) }--#{ nth($variant, 2) }
-        @extend %#{ $module_name }%-#{ $variant }
+        @if type_of($variant) == "list"
+            $variant: #{nth($variant, 1)}--#{nth($variant, 2)}
+        @extend %#{$module_name}%-#{$variant}
 
 
-
-@mixin extend($module_name, $variants...)
-    @extend %#{ $module_name }
+// Public: Extend a Shiny-style module and its variants that are defined using
+//         placeholder selectors.
+//
+// $module_name     - The name of the module to extend.
+// $variants...     - (optional) A list of variants belonging to the given
+//                      module to extend.
+//
+// Example:
+//
+// With a module definition like so:
+//
+//     %Module
+//         font-size: 14px
+//         color: red
+//         &%-variant
+//             color: blue
+//         &%-variant_group--one
+//             font-weight: 300
+//         &%-varaint_group--two
+//             font-weight: 700
+//
+// Calling extend with the module and all its variants...
+//
+// ```sass
+// .Alpha
+//     +extend(Module, variant, variant_group one)
+// .Beta
+//     +extend(Module, variant_group two)
+// ```
+//
+// ...yields the following CSS:
+//
+// ```css
+// .Alpha, .Beta {
+//     font-size: 14px;
+//     color: red;
+// }
+// .Alpha {
+//     color: blue;
+// }
+// .Alpha {
+//     font-weight: 300;
+// }
+// .Beta {
+//     font-weight: 700; 
+// }
+// ```
+//
+=extend($module_name, $variants...)
+    @extend %#{$module_name}
     +extend-variants($module_name, $variants...)
 
 
 
-@mixin auto-extend($classes...)
-    @each $class in $classes
-        .#{ $class }
-            +extend($class)
-
-
-
-@mixin state($state, $val: true)
-    &[data-#{ $state }="#{ $val }"]
+// Public: Add rules to be used when a certain state is active.
+//
+// $state   - The name of the state to match.
+// $value   - (optional: true) The value of the state. Will be wrapped in "".
+//
+// Example:
+//
+// ```sass
+// .SomeModule
+//     +state(loading)
+//         opacity: 0.5
+// ```
+//
+// ```css
+// .SomeModule[data-loading="true"] {
+//     opacity: 0.5;
+// }
+// ```
+//
+// ```sass
+// .SomeModule
+//     +state(progress, 50)
+//         opacity: 0.5
+// ```
+//
+// ```css
+// .SomeModule[data-progress="50"] {
+//     opacity: 0.5;
+// }
+// ```
+=state($state, $val: true)
+    &[data-#{$state}="#{$val}"]
         @content
 
 
 
-
-// Based on Scott Kellum’s BEM helpers
-// https://gist.github.com/scottkellum/6994632
-
-// To be enabled with Sass 3.3
-    =pcomponent($name)
-        @at-root #{&}#{$name}
-            @content
-    =pvariant($name, $val: false)
-        @if $val
-            $val: --#{ $val }
-        @else
-            $val: ''
-        @at-root #{&}%-#{$name}#{ $val }
-            @content
-    =component($name)
-        @at-root #{&}#{$name}
-            @content
-    =variant($name, $val: false)
-        @if $val
-            $val: --#{ $val }
-        @else
-            $val: ''
-        @at-root #{&}.-#{$name}#{ $val }
-            @content
+// Public: Auto extend a module defined using placeholder selectors (%) into
+//         actual classes (with . prefix).
+//
+// $module_name     - The name of the module to extend.
+// $variants...     - (optional) A list of variants belonging to the given
+//                      module to extend.
+//
+// Example:
+//
+// With a module definition like so:
+//
+// ```sass
+// %Module
+//     font-size: 14px
+//     color: red
+//     &%-variant
+//         color: blue
+//     &%-variant_group--one
+//         font-weight: 300
+//     &%-varaint_group--two
+//         font-weight: 700
+// ```
+//
+// Calling auto-extend with the module and all its variants...
+//
+// ```sass
+// +auto-extend(Module, variant, variant_group one, variant_group two)
+// ```
+//
+// ...yields the following CSS:
+//
+// ```css
+// .Module {
+//     font-size: 14px;
+//     color: red;
+// }
+// .Module.-variant {
+//     color: blue;
+// }
+// .Module.-variant_group--one {
+//     font-weight: 300;
+// }
+// .Module.-variant_group--two {
+//     font-weight: 700;
+// }
+// ```
+//
+=auto-extend($module_name, $variants...)
+    .#{$module_name}
+        +extend($module_name)
+        @each $variant in $variants
+            $sel: $variant
+            @if type_of($sel) == "list"
+                $sel: #{nth($sel, 1)}--#{nth($sel, 2)}
+            &.-#{ $sel }
+                +extend-variants($module_name, $variant)
