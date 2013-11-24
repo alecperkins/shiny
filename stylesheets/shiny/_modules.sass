@@ -1,9 +1,30 @@
-=extends($module_name, $variants...)
-    @extend %#{ $module_name }
+
+@mixin extend-variants($module_name, $variants...)
     @each $variant in $variants
         @if type_of($variant) == 'list'
             $variant: #{ nth($variant, 1) }--#{ nth($variant, 2) }
         @extend %#{ $module_name }%-#{ $variant }
+
+
+
+@mixin extend($module_name, $variants...)
+    @extend %#{ $module_name }
+    +extend-variants($module_name, $variants...)
+
+
+
+@mixin auto-extend($classes...)
+    @each $class in $classes
+        .#{ $class }
+            +extend($class)
+
+
+
+@mixin state($state, $val: true)
+    &[data-#{ $state }="#{ $val }"]
+        @content
+
+
 
 
 // Based on Scott Kellum’s BEM helpers
