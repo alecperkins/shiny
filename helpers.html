@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        body {
+            max-width       : 760px;
+            margin          : 0 auto;
+            padding         : 1em;
+            color           : #0c0c0c;
+        }
+        p code {
+            border          : 1px solid #ccc;
+            padding         : 0.25em 0.5em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            position        : relative;
+        }
+        .deeplink {
+            position        : absolute;
+            right           : 100%;
+            margin-right    : 0.5rem;
+            color           : #ccc;
+            text-decoration : none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="./index.html">Index</a>
+        <a href="./spec.html">Specification</a>
+        <a href="./helpers.html">Helpers</a>
+    </nav>
+
+    <h1 id="helpers">Helpers</h1>
+<p>Shiny includes some helpers for following its <em>Module</em> pattern. They work best
+in the whitespace-sensitive, <code>.sass</code> syntax.</p>
+<p>See the helpers in action on <a href="http://sassmeister.com/gist/7430531">Sassmeister</a>.</p>
+<h2 id="-extend-"><code>+extend</code></h2>
+<p>Using the placeholders can get a bit repetitive. The <code>+extend</code> mixin takes a
+<em>Module</em> or <em>Component</em> name and any variants. For subvariants, separate the
+variant group and the variant value with a space.</p>
+<p>So these extends:</p>
+<pre><code class="lang-sass">.IssueContents
+    @extend %Container
+    @extend %Container%-full
+    @extend %Container%-spaceless</code></pre>
+<p>become:</p>
+<pre><code class="lang-sass">.IssueContents
+    +extend(Container, full, spaceless)</code></pre>
+<p>Subvariants work like this:</p>
+<pre><code class="lang-sass">.Story
+    +extend(Item, size half, align center)</code></pre>
+<h2 id="-extend-variants-"><code>+extend-variants</code></h2>
+<p>The <code>+extend-variants</code> mixin allows for remapping variants without reextending
+the rest of the module. For example, the more semantic <code>-featured</code> variant can
+extend a presentational <code>-size--large</code> variant.</p>
+<p>Instead of using <code>+extend</code> twice:</p>
+<pre><code class="lang-sass">.Story
+    +extend(Item, size small)
+    &amp;.-featured
+        +extend(Item, size large)</code></pre>
+<pre><code class="lang-css">.Story, .Story.-featured { /* ... */ }
+.Story { /* ... */ }
+.Story.-featured { /* ... */ }</code></pre>
+<p>Using <code>+extend-variants</code> eliminates the redundant selectors.</p>
+<pre><code class="lang-sass">.Story
+    +extend(Item, size small)
+    &amp;.-featured
+        +extend-variants(Item, size large)</code></pre>
+<pre><code class="lang-css">.Story { /* ... */ }
+.Story { /* ... */ }
+.Story.-featured { /* ... */ }</code></pre>
+<p>(The duplicated <code>.Story</code> rules are from extending the <code>%Item</code>, and then the
+<code>%Item%-size--small</code>.)</p>
+<h2 id="-auto-extend-"><code>+auto-extend</code></h2>
+<p>Sometimes, the placeholders simply need to be directly converted to regular
+classes. The <code>+auto-extend</code> mixin does this.</p>
+<pre><code class="lang-sass">+auto-extend(Container, full, spaceless, height half, height third)</code></pre>
+<pre><code class="lang-css">.Container { /*...*/ }
+.Container.-full { /*...*/ }
+.Container.-spaceless { /*...*/ }
+.Container.-height--half { /*...*/ }
+.Container.-height--third { /*...*/ }</code></pre>
+<p>Now, these classes can be used directly. A useful development pattern is to
+auto-extend the module and variants, use the raw classes and identify the
+combinations, then replace them with semantic classes that use the <code>+extend</code>
+helper.</p>
+<h2 id="-state-"><code>+state</code></h2>
+<p>A helper for specifying declarations for a given state. The mixin can take
+either a name, <code>+state(loading)</code>, or a name and value, <code>+state(progress, 50)</code>.
+If a value is not specified, it will default to <code>true</code>.</p>
+<pre><code class="lang-sass">.Gallery
+    +state(loading)
+        border-color: green
+    +state(progress, 50)
+        opacity: 0.5</code></pre>
+<pre><code class="lang-css">.Gallery[data-loading=&quot;true&quot;] {
+    border-color: green;
+}
+.Gallery[data-progress=&quot;50&quot;] {
+    opacity: 0.5;
+}</code></pre>
+
+
+    <script>
+        (function(){
+            var heading_counts = {};
+            var heading_stack = []
+            var heading_els = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            for(var i = 0; i < heading_els.length; i++) {
+                var current_heading = heading_els[i];
+                current_heading.level = parseInt(current_heading.tagName.substring(1));
+                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level > current_heading.level) {
+                    heading_stack.pop()
+                }
+                heading_stack.push(current_heading);
+                var parent_id = '';
+                if(heading_stack.length > 1) {
+                    parent_id = heading_stack[heading_stack.length - 2].id;
+                }
+                var text = current_heading.innerText;
+                var slug = text.toLowerCase().replace(/\W/g,'-').split(/\s/).join('-');
+                if(slug[0] === '-') {
+                    slug = slug.substring(1);
+                }
+                slug = parent_id + '/' + slug;
+                if(!heading_counts[slug]) {
+                    heading_counts[slug] = 0;
+                }
+                heading_counts[slug]++;
+                if(heading_counts[slug] > 1) {
+                    slug = slug + '-' + heading_counts[slug].toString()
+                }
+                current_heading.id = slug;
+                current_heading.innerHTML = '<a class="deeplink" href="#' + slug + '">#</a>' + current_heading.innerHTML
+            }
+        })();
+    </script>
+</body>
+</html>
