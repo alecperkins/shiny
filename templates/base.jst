@@ -28,7 +28,7 @@
 </head>
 <body>
     <nav>
-        <a href="./index.html">Index</a>
+        <a href="./">Index</a>
         <a href="./spec.html">Specification</a>
         <a href="./helpers.html">Helpers</a>
     </nav>
@@ -43,7 +43,7 @@
             for(var i = 0; i < heading_els.length; i++) {
                 var current_heading = heading_els[i];
                 current_heading.level = parseInt(current_heading.tagName.substring(1));
-                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level > current_heading.level) {
+                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level >= current_heading.level) {
                     heading_stack.pop()
                 }
                 heading_stack.push(current_heading);

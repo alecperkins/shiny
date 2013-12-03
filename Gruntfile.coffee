@@ -1,9 +1,9 @@
 module.exports = (grunt) ->
     
     DEBUG = not grunt.cli.options.production
+    PACKAGE = grunt.file.readJSON('package.json')
 
     grunt.initConfig
-        pkg: grunt.file.read('package.json')
 
         markdown:
             all:
@@ -18,14 +18,13 @@ module.exports = (grunt) ->
             options:
                 template: 'templates/base.jst'
                 preCompile: (src, context) ->
-                    return src.replace(/{{ VERSION }}/g, 'X.Y.Z')
+                    return src.replace(/{{ VERSION }}/g, PACKAGE.version)
                 postCompile: (src, context) ->
                 templateContext: {}
                 markdownOptions:
                     gfm: true
     grunt.loadNpmTasks('grunt-markdown')
 
-    # grunt.registerTask('default', ['browserify','uglify','compass'])
-    grunt.registerTask('build:pages', ['markdown'])
+    grunt.registerTask('default', ['markdown'])
 
 

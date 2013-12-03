@@ -1,7 +1,7 @@
 # Specification
 
-The Shiny specification follows [semver](http://semver.org) and is currently
-at version v{{ VERSION }}.
+The Shiny specification follows [*semver*](http://semver.org) and is currently
+at version **v{{ VERSION }}**.
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
@@ -60,7 +60,7 @@ contain a number of *Components*. It MAY have a number of *Variants* and
 contain other *Modules*.
 
 
-### Specification
+### Requirements
 
 1.  *Modules* MUST be in camelcase: `ModuleName`.
 
@@ -279,7 +279,7 @@ behavioral are kept separate from rules responsible for “Look-and-Feel” (LAF
 Everything is pulled together using a single manifest-type file, that is
 responsible for load order.
 
-### Specification
+### Requirements
 
 1.  Files that are not linked in the page MUST be prefixed with an underscore.
 
