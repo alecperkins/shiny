@@ -47,25 +47,6 @@
 // }
 // ```
 //
-// Whereas if the above `+extend-variants` were just `+extends`, the CSS
-// output would be:
-//
-// ```css
-// .Alpha, .Alpha.-featured, .Beta {
-//     font-size: 14px;
-//     color: red;
-// }
-// .Alpha.-featured {
-//     color: blue;
-// }
-// .Alpha.-featured {
-//     font-weight: 300;
-// }
-// .Beta {
-//     font-weight: 700; 
-// }
-// ```
-//
 =extend-variants($module_name, $variants...)
     @each $variant in $variants
         @if type_of($variant) == "list"
@@ -219,3 +200,5 @@
                 $sel: #{nth($sel, 1)}--#{nth($sel, 2)}
             &.-#{ $sel }
                 +extend-variants($module_name, $variant)
+
+
