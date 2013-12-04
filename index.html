@@ -28,7 +28,7 @@
 </head>
 <body>
     <nav>
-        <a href="./">Index</a>
+        <a href="./">Shiny</a>
         <a href="./spec.html">Specification</a>
         <a href="./helpers.html">Helpers</a>
     </nav>
@@ -42,10 +42,10 @@ though it is less strict since organization is very project- and workflow-
 specific. There are also helper mixins for creating and using modules that
 conform to the Shiny specification.</p>
 <h2 id="specification">Specification</h2>
-<p>The selector syntax looks like: <code>ModuleName</code>, <code>ModuleName_ComponentName</code>,
-<code>-variant</code>, <code>-variant_group--val</code>, <code>[data-state=&quot;val&quot;]</code>. Project organization
-is oriented around separating structural styles from look-and-feel styles,
-through the use of appropriately named files.</p>
+<p>The selector syntax looks like: <code>.ModuleName</code>, <code>.ModuleName_ComponentName</code>,
+<code>.-variant</code>, <code>.-variant_group--val</code>, <code>[data-state=&quot;val&quot;]</code>, <code>#element_id</code>.
+Project organization is oriented around separating structural styles from
+look-and-feel styles, through the use of appropriately named files.</p>
 <p>See the full <a href="./specification.html">specification</a> for details and examples of
 both.</p>
 <p>Shiny follows <a href="http://semver.org">semver</a> and is currently at v1.0.0.dev.</p>
@@ -58,6 +58,12 @@ friendlier syntax than BEM and SMACSS. It strives to be simpler, keeping the
 number of concepts to a minimum. Also, it is specified with Sass in mind, and
 takes direct advantage of the <code>@extend</code> directive for defining and using
 modules.</p>
+<h2 id="source-and-issues">Source And Issues</h2>
+<p>The project source for the spec and the helpers is open source, <a href="http://unlicense.org">unlicensed</a>,
+and is available on <a href="https://github.com/alecperkins/sass-shiny">GitHub</a>. Bugs,
+problems, features, comments, joys, and concerns are all welcome in the
+project <a href="https://github.com/alecperkins/sass-shiny/issues">issues</a>, as are
+pull requests.</p>
 
 
     <script>
