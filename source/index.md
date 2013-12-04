@@ -11,15 +11,16 @@ conform to the Shiny specification.
 
 ## Specification
 
-The selector syntax looks like: `ModuleName`, `ModuleName_ComponentName`,
-`-variant`, `-variant_group--val`, `[data-state="val"]`. Project organization
-is oriented around separating structural styles from look-and-feel styles,
-through the use of appropriately named files.
+The selector syntax looks like: `.ModuleName`, `.ModuleName_ComponentName`,
+`.-variant`, `.-variant_group--val`, `[data-state="val"]`, `#element_id`.
+Project organization is oriented around separating structural styles from
+look-and-feel styles, through the use of appropriately named files.
 
 See the full [specification](./specification.html) for details and examples of
 both.
 
 Shiny follows [semver](http://semver.org) and is currently at v{{ VERSION }}.
+
 
 ## About
 
