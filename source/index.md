@@ -32,3 +32,12 @@ friendlier syntax than BEM and SMACSS. It strives to be simpler, keeping the
 number of concepts to a minimum. Also, it is specified with Sass in mind, and
 takes direct advantage of the `@extend` directive for defining and using
 modules.
+
+
+## Source And Issues
+
+The project source for the spec and the helpers is open source, [unlicensed](http://unlicense.org),
+and is available on [GitHub](https://github.com/alecperkins/sass-shiny). Bugs,
+problems, features, comments, joys, and concerns are all welcome in the
+project [issues](https://github.com/alecperkins/sass-shiny/issues), as are
+pull requests.
