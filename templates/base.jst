@@ -52,9 +52,12 @@
                     parent_id = heading_stack[heading_stack.length - 2].id;
                 }
                 var text = current_heading.innerText;
-                var slug = text.toLowerCase().replace(/\W/g,'-').split(/\s/).join('-');
+                var slug = text.toLowerCase().replace(/[\W]+/g,'-').split(/\s/).join('-');
                 if(slug[0] === '-') {
                     slug = slug.substring(1);
+                }
+                if(slug[slug.length - 1] === '-') {
+                    slug = slug.slice(0, slug.length - 1);
                 }
                 slug = parent_id + '/' + slug;
                 if(!heading_counts[slug]) {
