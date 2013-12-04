@@ -334,8 +334,8 @@ responsible for load order.
 
 * There is an appeal to having each file import the parts it needs. However,
   the global nature of Sass/CSS and the behavior of placeholder selectors
-  means this keeping this managable is often more trouble than it’s worth.
-  Hacks like the `+exports` trick introduce their own share of complexity.
+  means keeping this managable is often more trouble than it’s worth. Hacks
+  like the `+exports` trick introduce their own share of complexity.
 
 * The distinction between LAF and structural is fuzzy, and varies depending on
   circumstance. In one usage, `margin` may simply increase the whitespace
