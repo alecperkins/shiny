@@ -12,12 +12,13 @@ interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
 Selectors are named to communicate the role and responsibility of the element:
 
-* *Module*              : `ModuleName`
-* *Component*           : `ModuleName_ComponentName`
-* Private *Module*      : `_ModuleName`
-* *Variant*             : `-variant` or `-variant_group--value`
+* *Module*              : `.ModuleName`
+* *Component*           : `.ModuleName_ComponentName`
+* Private *Module*      : `._ModuleName`
+* *Variant*             : `.-variant` or `.-variant_group--value`
 * *State*               : `[data-state="value"]` or `:disabled` (built-in)
-* *Helper*              : `H_ModuleName_ComponentName`
+* *Helper*              : `.H_ModuleName_ComponentName`
+* Element `id`          : `#element_id`
 
 Project structure convention to communicate the responsibility of the files:
 
@@ -106,6 +107,9 @@ contain other *Modules*.
 16. *Modules* and *Components* SHOULD be documented using the Shiny
     [documentation style](./documentation.html).
 
+17. Element ID attributes SHOULD be lowercase, with underscores to delimit
+    words: `element_id`
+
 ### Discussion
 
 * If a *Component* is reusable across different *Modules*, or outside of the
@@ -164,6 +168,10 @@ contain other *Modules*.
 * More sophisticated selector prefixes, with characters like `^` and `+` are
   possible, but are easy to confuse with things like regex and sibling
   selectors.
+
+* Using underscore delimited IDs instead of hyphenated allows them to more
+  easily correspond to script variables, and also clearly distinguishes them
+  from the other kinds of selectors.
 
 
 ### Example
