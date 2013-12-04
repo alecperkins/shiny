@@ -28,7 +28,7 @@
 </head>
 <body>
     <nav>
-        <a href="./index.html">Index</a>
+        <a href="./">Index</a>
         <a href="./spec.html">Specification</a>
         <a href="./helpers.html">Helpers</a>
     </nav>
@@ -112,7 +112,7 @@ If a value is not specified, it will default to <code>true</code>.</p>
             for(var i = 0; i < heading_els.length; i++) {
                 var current_heading = heading_els[i];
                 current_heading.level = parseInt(current_heading.tagName.substring(1));
-                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level > current_heading.level) {
+                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level >= current_heading.level) {
                     heading_stack.pop()
                 }
                 heading_stack.push(current_heading);
@@ -121,9 +121,12 @@ If a value is not specified, it will default to <code>true</code>.</p>
                     parent_id = heading_stack[heading_stack.length - 2].id;
                 }
                 var text = current_heading.innerText;
-                var slug = text.toLowerCase().replace(/\W/g,'-').split(/\s/).join('-');
+                var slug = text.toLowerCase().replace(/[\W]+/g,'-').split(/\s/).join('-');
                 if(slug[0] === '-') {
                     slug = slug.substring(1);
+                }
+                if(slug[slug.length - 1] === '-') {
+                    slug = slug.slice(0, slug.length - 1);
                 }
                 slug = parent_id + '/' + slug;
                 if(!heading_counts[slug]) {
@@ -137,6 +140,19 @@ If a value is not specified, it will default to <code>true</code>.</p>
                 current_heading.innerHTML = '<a class="deeplink" href="#' + slug + '">#</a>' + current_heading.innerHTML
             }
         })();
+    </script>
+    <script type="text/javascript">
+      var _gauges = _gauges || [];
+      (function() {
+        var t   = document.createElement('script');
+        t.type  = 'text/javascript';
+        t.async = true;
+        t.id    = 'gauges-tracker';
+        t.setAttribute('data-site-id', '529e667f8bfdf7747e000052');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      })();
     </script>
 </body>
 </html>

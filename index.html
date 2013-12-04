@@ -28,12 +28,12 @@
 </head>
 <body>
     <nav>
-        <a href="./index.html">Index</a>
+        <a href="./">Index</a>
         <a href="./spec.html">Specification</a>
         <a href="./helpers.html">Helpers</a>
     </nav>
 
-    <h1 id="shiny-v-version-">Shiny, v&lt;%= VERSION %&gt;</h1>
+    <h1 id="shiny-v1-0-0-dev">Shiny, v1.0.0.dev</h1>
 <p><em>Shiny</em> is a method of writing <a href="http://sass-lang.com">Sass</a>, a preprocessor
 language for CSS. It categorizes rules into <em>Modules</em>,  <em>Components</em>, and
 <em>Variants</em>. A naming scheme provides a way to communicate responsibility using
@@ -48,16 +48,16 @@ is oriented around separating structural styles from look-and-feel styles,
 through the use of appropriately named files.</p>
 <p>See the full <a href="./specification.html">specification</a> for details and examples of
 both.</p>
-<p>Shiny follows <a href="http://semver.org">semver</a> and is currently at vX.Y.Z.</p>
+<p>Shiny follows <a href="http://semver.org">semver</a> and is currently at v1.0.0.dev.</p>
 <h2 id="about">About</h2>
 <p>The Shiny method is similar to, and influenced by, the <a href="http://smacss.com/">SMACSS</a>
 and <a href="http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/">BEM</a> 
 techniques. It also draws some inspiration from <a href="http://teamtreehouse.com/library/sass-conf/managing-complex-projects-with-design-components-john-albin-wilkins">a talk</a>
 by John Albin Wilkins at Sass Conf 2013. However, it attempts to have a
-friendlier syntax than BEM and SMACSS that also does not fight the cascade,
-and still allows for flexibility. It strives to be simpler, keeping the number
-of concepts to a minimum. Also, it is specified with Sass in mind, and takes
-direct advantage of the <code>@extend</code> directive for defining and using modules.</p>
+friendlier syntax than BEM and SMACSS. It strives to be simpler, keeping the
+number of concepts to a minimum. Also, it is specified with Sass in mind, and
+takes direct advantage of the <code>@extend</code> directive for defining and using
+modules.</p>
 
 
     <script>
@@ -68,7 +68,7 @@ direct advantage of the <code>@extend</code> directive for defining and using mo
             for(var i = 0; i < heading_els.length; i++) {
                 var current_heading = heading_els[i];
                 current_heading.level = parseInt(current_heading.tagName.substring(1));
-                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level > current_heading.level) {
+                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level >= current_heading.level) {
                     heading_stack.pop()
                 }
                 heading_stack.push(current_heading);
@@ -77,9 +77,12 @@ direct advantage of the <code>@extend</code> directive for defining and using mo
                     parent_id = heading_stack[heading_stack.length - 2].id;
                 }
                 var text = current_heading.innerText;
-                var slug = text.toLowerCase().replace(/\W/g,'-').split(/\s/).join('-');
+                var slug = text.toLowerCase().replace(/[\W]+/g,'-').split(/\s/).join('-');
                 if(slug[0] === '-') {
                     slug = slug.substring(1);
+                }
+                if(slug[slug.length - 1] === '-') {
+                    slug = slug.slice(0, slug.length - 1);
                 }
                 slug = parent_id + '/' + slug;
                 if(!heading_counts[slug]) {
@@ -93,6 +96,19 @@ direct advantage of the <code>@extend</code> directive for defining and using mo
                 current_heading.innerHTML = '<a class="deeplink" href="#' + slug + '">#</a>' + current_heading.innerHTML
             }
         })();
+    </script>
+    <script type="text/javascript">
+      var _gauges = _gauges || [];
+      (function() {
+        var t   = document.createElement('script');
+        t.type  = 'text/javascript';
+        t.async = true;
+        t.id    = 'gauges-tracker';
+        t.setAttribute('data-site-id', '529e667f8bfdf7747e000052');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      })();
     </script>
 </body>
 </html>

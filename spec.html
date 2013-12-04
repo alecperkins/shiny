@@ -28,24 +28,27 @@
 </head>
 <body>
     <nav>
-        <a href="./index.html">Index</a>
+        <a href="./">Index</a>
         <a href="./spec.html">Specification</a>
         <a href="./helpers.html">Helpers</a>
     </nav>
 
     <h1 id="specification">Specification</h1>
+<p>The Shiny specification follows <a href="http://semver.org"><em>semver</em></a> and is currently
+at version <strong>v1.0.0.dev</strong>.</p>
 <p>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;,
 &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be
 interpreted as described in <a href="http://tools.ietf.org/html/rfc2119">RFC 2119</a>.</p>
 <h2 id="summary">Summary</h2>
 <p>Selectors are named to communicate the role and responsibility of the element:</p>
 <ul>
-<li><em>Module</em>              : <code>ModuleName</code></li>
-<li><em>Component</em>           : <code>ModuleName_ComponentName</code></li>
-<li>Private <em>Module</em>      : <code>_ModuleName</code></li>
-<li><em>Variant</em>             : <code>-variant</code> or <code>-variant_group--value</code></li>
+<li><em>Module</em>              : <code>.ModuleName</code></li>
+<li><em>Component</em>           : <code>.ModuleName_ComponentName</code></li>
+<li>Private <em>Module</em>      : <code>._ModuleName</code></li>
+<li><em>Variant</em>             : <code>.-variant</code> or <code>.-variant_group--value</code></li>
 <li><em>State</em>               : <code>[data-state=&quot;value&quot;]</code> or <code>:disabled</code> (built-in)</li>
-<li><em>Helper</em>              : <code>H_ModuleName_ComponentName</code></li>
+<li><em>Helper</em>              : <code>.H_ModuleName_ComponentName</code></li>
+<li>Element <code>id</code>          : <code>#element_id</code></li>
 </ul>
 <p>Project structure convention to communicate the responsibility of the files:</p>
 <pre><code>styles/
@@ -81,7 +84,7 @@ interpreted as described in <a href="http://tools.ietf.org/html/rfc2119">RFC 211
 contain a number of <em>Components</em>. It MAY have a number of <em>Variants</em> and
 <em>States</em>, which are used to modify the <em>Module</em> or <em>Components</em>. <em>Modules</em> MAY
 contain other <em>Modules</em>.</p>
-<h3 id="specification">Specification</h3>
+<h3 id="requirements">Requirements</h3>
 <ol>
 <li><p><em>Modules</em> MUST be in camelcase: <code>ModuleName</code>.</p>
 </li>
@@ -126,6 +129,9 @@ though dependent on the specific usecase.</p>
 </li>
 <li><p><em>Modules</em> and <em>Components</em> SHOULD be documented using the Shiny
 <a href="./documentation.html">documentation style</a>.</p>
+</li>
+<li><p>Element ID attributes SHOULD be lowercase, with underscores to delimit
+words: <code>element_id</code></p>
 </li>
 </ol>
 <h3 id="discussion">Discussion</h3>
@@ -186,6 +192,10 @@ dictate.</p>
 <li><p>More sophisticated selector prefixes, with characters like <code>^</code> and <code>+</code> are
 possible, but are easy to confuse with things like regex and sibling
 selectors.</p>
+</li>
+<li><p>Using underscore delimited IDs instead of hyphenated allows them to more
+easily correspond to script variables, and also clearly distinguishes them
+from the other kinds of selectors.</p>
 </li>
 </ul>
 <h3 id="example">Example</h3>
@@ -285,7 +295,7 @@ so it’s in a <code>loading</code> state.</p>
 behavioral are kept separate from rules responsible for “Look-and-Feel” (LAF).
 Everything is pulled together using a single manifest-type file, that is
 responsible for load order.</p>
-<h3 id="specification">Specification</h3>
+<h3 id="requirements">Requirements</h3>
 <ol>
 <li><p>Files that are not linked in the page MUST be prefixed with an underscore.</p>
 </li>
@@ -361,7 +371,7 @@ sense to have strict </p>
             for(var i = 0; i < heading_els.length; i++) {
                 var current_heading = heading_els[i];
                 current_heading.level = parseInt(current_heading.tagName.substring(1));
-                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level > current_heading.level) {
+                while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level >= current_heading.level) {
                     heading_stack.pop()
                 }
                 heading_stack.push(current_heading);
@@ -370,9 +380,12 @@ sense to have strict </p>
                     parent_id = heading_stack[heading_stack.length - 2].id;
                 }
                 var text = current_heading.innerText;
-                var slug = text.toLowerCase().replace(/\W/g,'-').split(/\s/).join('-');
+                var slug = text.toLowerCase().replace(/[\W]+/g,'-').split(/\s/).join('-');
                 if(slug[0] === '-') {
                     slug = slug.substring(1);
+                }
+                if(slug[slug.length - 1] === '-') {
+                    slug = slug.slice(0, slug.length - 1);
                 }
                 slug = parent_id + '/' + slug;
                 if(!heading_counts[slug]) {
@@ -386,6 +399,19 @@ sense to have strict </p>
                 current_heading.innerHTML = '<a class="deeplink" href="#' + slug + '">#</a>' + current_heading.innerHTML
             }
         })();
+    </script>
+    <script type="text/javascript">
+      var _gauges = _gauges || [];
+      (function() {
+        var t   = document.createElement('script');
+        t.type  = 'text/javascript';
+        t.async = true;
+        t.id    = 'gauges-tracker';
+        t.setAttribute('data-site-id', '529e667f8bfdf7747e000052');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      })();
     </script>
 </body>
 </html>
