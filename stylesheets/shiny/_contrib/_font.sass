@@ -1,0 +1,69 @@
+// Defaults for the variables necessary for the font functions and mixins.
+$font--stacks               : ( (Helvetica, Arial, sans-serif), (Georgia, 'Times New Roman', serif) ) !default
+$font--weights_available    : false     !default
+$font--base_size            : 16px      !default
+
+
+
+// Public: get the font stack with the given family name as the first
+//         ("primary") font. Font stacks that are not found will
+//         yield a warning and use the first font stack in the list.
+//
+// $primary     - the string name of the font family to use.
+@function font-stack($primary)
+    $stack: false
+    @each $font_stack in $font--stacks
+        @if nth($font_stack, 1) == $primary
+            $stack: $font_stack
+    @if not $stack
+        @warn "Font stack #{ $primary } not set"
+        $stack: nth($font--stacks, 1)
+    @return $stack
+
+
+
+// Public: set the `font-family` to the stack with the given family name as
+//         the first ("primary") font. Font stacks that are not found will
+//         yield a warning and use the first font stack in the list.
+//         Optionally specify a weight, which will be checked against the
+//         manifest of families and weights.
+//
+// $primary     - the string name of the font family to use.
+// $font_weight - the number weight of the font to set.
+//
+@mixin font-stack($primary, $font_weight: false)
+    font-family: font-stack($primary)
+    @if $font_weight
+        @if not $font--weights_available
+            @warn "`$font--weights_available` must be defined to use the $font_weight parameter"
+        @else
+            $available: false
+            @each $weight_set in $font--weights_available
+                @if nth($weight_set,1) == $primary
+                    @each $weight in $weight_set
+                        @if $weight == $font_weight
+                            $available: true
+            @if not $available
+                @warn "Font weight #{ $font_weight } not available for #{ $primary }"
+            @else
+                font-weight: $font_weight
+
+
+
+// Public: calculate the pixel value of a given multiplier to the base font size.
+//
+// $val - (optional: 1) a unitless number to multiply against `$font--base_size`
+//
+// Returns the resulting font size, in pixels.
+@function font-size($val: 1)
+    @return $val * $font--base_size
+
+// Public: set the font-size to the pixel value of the given multiplier of the
+//         the base font size.
+//
+// $val - (optional: 1) a unitless number to multiply against `$font--base_size`
+//
+@mixin font-size($val: 1)
+    font-size: font-size($val)
+
+

@@ -1,0 +1,112 @@
+$break--extra_small : 640px  !default
+$break--small       : 768px  !default
+$break--medium      : 1024px !default
+$break--large       : 1280px !default
+$break--extra_large : 1440px !default 
+
+@mixin respond-to($min, $max)
+    @media only screen and (min-width: $min) and (max-width: $max)
+        @content
+
+@mixin respond-to-gt($size)
+    @media only screen and (min-width: $size + 1)
+        @content
+
+@mixin respond-to-lt($size)
+    @media only screen and (max-width: $size - 1)
+        @content
+
+@mixin respond-to-gte($size)
+    @media only screen and (min-width: $size)
+        @content
+
+@mixin respond-to-lte($size)
+    @media only screen and (max-width: $size)
+        @content
+
+
+@mixin respond-to-gt-extra_small()
+    +respondo-to-gt($extra_small)
+        @content
+
+@mixin respond-to-lt-extra_small()
+    +respondo-to-lt($extra_small)
+        @content
+
+@mixin respond-to-gte-extra_small()
+    +respondo-to-gte($extra_small)
+        @content
+
+@mixin respond-to-lte-extra_small()
+    +respondo-to-lte($extra_small)
+        @content
+
+
+@mixin respond-to-gt-small($)
+    +respondo-to-gt($small)
+        @content
+
+@mixin respond-to-lt-small($)
+    +respondo-to-lt($small)
+        @content
+
+@mixin respond-to-gte-small($)
+    +respondo-to-gte($small)
+        @content
+
+@mixin respond-to-lte-small($)
+    +respondo-to-lte($small)
+        @content
+
+
+@mixin respond-to-gt-medium()
+    +respondo-to-gt($medium)
+        @content
+
+@mixin respond-to-lt-medium()
+    +respondo-to-lt($medium)
+        @content
+
+@mixin respond-to-gte-medium()
+    +respondo-to-gte($medium)
+        @content
+
+@mixin respond-to-lte-medium()
+    +respondo-to-lte($medium)
+        @content
+
+
+@mixin respond-to-gt-large()
+    +respondo-to-gt($large)
+        @content
+
+@mixin respond-to-lt-large()
+    +respondo-to-lt($large)
+        @content
+
+@mixin respond-to-gte-large()
+    +respondo-to-gte($large)
+        @content
+
+@mixin respond-to-lte-large()
+    +respondo-to-lte($large)
+        @content
+
+
+@mixin respond-to-gt-extra_large()
+    +respondo-to-gt($extra_large)
+        @content
+
+@mixin respond-to-lt-extra_large()
+    +respondo-to-lt($extra_large)
+        @content
+
+@mixin respond-to-gte-extra_large()
+    +respondo-to-gte($extra_large)
+        @content
+
+@mixin respond-to-lte-extra_large()
+    +respondo-to-lte($extra_large)
+        @content
+
+
