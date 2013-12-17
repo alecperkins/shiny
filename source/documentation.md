@@ -11,7 +11,7 @@ documentation styles for different usecases and preferences, and the core spec
 is not dependent on any particular style.)
 
 
-    # <ModuleName or ComponentName>
+    # <ComponentName or SubcomponentName>
 
     <description and usage>
 
@@ -45,7 +45,7 @@ is not dependent on any particular style.)
    used for the comments.
 
 5. Each primary comment section MUST start with a heading and the module or
-   component name: `# Module` or `# Module_Component`.
+   component name: `# Component` or `# Component_Subcomponent`.
 
 6. Example markup MUST be added using backticks, and SHOULD indicate that it
    is HTML, using the [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)

@@ -1,6 +1,6 @@
 {
   "name": "sass-shiny",
-  "version": "1.0.0.dev",
+  "version": "1.0.0-draft",
   "devDependencies": {
     "markdown": "~0.5.0",
     "grunt": "~0.4.2",

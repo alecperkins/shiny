@@ -1,7 +1,7 @@
 # Helpers
 
-Shiny includes some helpers for following its *Module* pattern. They work best
-in the whitespace-sensitive, `.sass` syntax.
+Shiny includes some helpers for following its *Component* pattern. They work
+best in the whitespace-sensitive, `.sass` syntax.
 
 See the helpers in action on [Sassmeister](http://sassmeister.com/gist/7430531).
 
@@ -10,8 +10,8 @@ See the helpers in action on [Sassmeister](http://sassmeister.com/gist/7430531).
 ## `+extend`
 
 Using the placeholders can get a bit repetitive. The `+extend` mixin takes a
-*Module* or *Component* name and any variants. For subvariants, separate the
-variant group and the variant value with a space.
+*Component* or *Subcomponent* name and any variants. For subvariants, separate
+the variant group and the variant value with a space.
 
 So these extends:
 
@@ -98,7 +98,7 @@ classes. The `+auto-extend` mixin does this.
 ```
 
 Now, these classes can be used directly. A useful development pattern is to
-auto-extend the module and variants, use the raw classes and identify the
+auto-extend the component and variants, use the raw classes and identify the
 combinations, then replace them with semantic classes that use the `+extend`
 helper.
 

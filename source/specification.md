@@ -12,12 +12,12 @@ interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
 Selectors are named to communicate the role and responsibility of the element:
 
-* *Module*              : `.ModuleName`
-* *Component*           : `.ModuleName_ComponentName`
-* Private *Module*      : `._ModuleName`
+* *Component*           : `.ComponentName`
+* *Subcomponent*        : `.ComponentName_SubcomponentName`
+* Private *Component*   : `._ComponentName`
 * *Variant*             : `.-variant` or `.-variant_group--value`
 * *State*               : `[data-state="value"]` or `:disabled` (built-in)
-* *Helper*              : `.H_ModuleName_ComponentName`
+* *Helper*              : `.H_ComponentName_SubcomponentName`
 * Element `id`          : `#element_id`
 
 Project structure convention to communicate the responsibility of the files:
@@ -29,15 +29,15 @@ Project structure convention to communicate the responsibility of the files:
             _icon.sass
             _typography.sass
         %AbstractModule/
-            _%AbstractModule.sass
+            _%AbstractComponent.sass
         Module/
-            _Module.sass
-            _Module-LAF.sass
-            _RelatedModule.sass
-            _RelatedModule-LAF.sass
+            _Component.sass
+            _Component-LAF.sass
+            _RelatedComponent.sass
+            _RelatedComponent-LAF.sass
         OtherModule/
-            _OtherModule.sass
-            _OtherModule-LAF.sass
+            _OtherComponent.sass
+            _OtherComponent-LAF.sass
         Site/
             _Site.sass
             _Site-LAF.sass
@@ -53,32 +53,33 @@ Project structure convention to communicate the responsibility of the files:
 
 
 
-## Modules
+## Components
 
-A *Module* is a reusable block of appearance and/or functionality. It MAY
-contain a number of *Components*. It MAY have a number of *Variants* and
-*States*, which are used to modify the *Module* or *Components*. *Modules* MAY
-contain other *Modules*.
+A *Component* is a reusable block of appearance and/or functionality. It MAY
+contain a number of *Subcomponents*. It MAY have a number of *Variants* and
+*States*, which are used to modify the *Component* or *Subcomponents*.
+*Components* MAY contain other *Components*.
 
 
 ### Requirements
 
-1.  *Modules* MUST be in camelcase: `ModuleName`.
+1.  *Components* MUST be in camelcase: `ComponentName`.
 
-2.  *Components* MUST be prefixed with the *Module* they belong to, separated
-    with an underscore: `ModuleName_ComponentName`.
+2.  *Subcomponents* MUST be prefixed with the *Component* they belong to,
+    separated with an underscore: `ComponentName_SubcomponentName`.
 
-3.  *Components* SHOULD NOT be nested under their parent *Module*, unless a
-    *Module* *Variant* needs to modify the *Component*.
+3.  *Subcomponents* SHOULD NOT be nested under their parent *Component*,
+    unless a *Component* *Variant* needs to modify the *Subcomponent*.
 
-4.  Private *Modules* SHOULD be prefixed with an underscore: `_ModuleName`.
+4.  Private *Components* SHOULD be prefixed with an underscore:
+    `_ComponentName`.
 
-5.  *Components* of private *Modules* SHOULD match the module underscore
-    prefix: `_ModuleName_ComponentName`.
+5.  *Subcomponents* of private *Components* SHOULD match the module underscore
+    prefix: `_ComponentName_SubcomponentName`.
 
 6.  *Variants* MUST be prefixed with a hyphen: `-variant`.
 
-7.  *Variants* MUST be nested under their *Module* or *Component*:
+7.  *Variants* MUST be nested under their *Component* or *Subcomponent*:
     `&.-variant`.
 
 8.  *Variants* SHOULD be lowercase, with underscores separating words:
@@ -96,15 +97,15 @@ contain other *Modules*.
     on presence (does not have its own value): `data-loading="true"`.
 
 13. *Helpers*, classes that have no semantic purpose, SHOULD be prefixed with
-    an `H_`: `H_ModuleName_ComponentWrapper`.
+    an `H_`: `H_ComponentName_SubcomponentWrapper`.
 
-14. Elements SHOULD only have one *Module* or *Component* class name, but MAY
-    have as many *Variants* or *States* as necessary.
+14. Elements SHOULD only have one *Component* or *Subcomponent* class name,
+    but MAY have as many *Variants* or *States* as necessary.
 
-15. *Component* presence in an instance of a *Module* in markup is *OPTIONAL*,
-    though dependent on the specific usecase.
+15. *Subcomponent* presence in an instance of a *Component* in markup is
+    *OPTIONAL*, though dependent on the specific usecase.
 
-16. *Modules* and *Components* SHOULD be documented using the Shiny
+16. *Components* and *Subcomponents* SHOULD be documented using the Shiny
     [documentation style](./documentation.html).
 
 17. Element ID attributes SHOULD be lowercase, with underscores to delimit
@@ -112,32 +113,31 @@ contain other *Modules*.
 
 ### Discussion
 
-* If a *Component* is reusable across different *Modules*, or outside of the
-  *Module*, then it is probably itself a *Module*. The underscore between the
-  `ModuleName` and `ComponentName` is intended to suggest that the *Component*
-  is private to the *Module*.
+* If a *Subcomponent* is reusable across different *Components*, or outside of
+  the *Component*, then it is probably itself a *Component*. The underscore
+  between the `ComponentName` and `SubcomponentName` is intended to suggest
+  that the *Subcomponent* is private to the *Component*.
 
-* Camelcase is chosen to help differentiate the *Modules* and *Components*
-  from classes for variants, or standalone classes. Also, it stands out in
-  normal text without additional formatting, helpful for documentation. An
-  added bonus is it follows conventions used in frontend or backend logic,
-  such as a Backbone or Django View, which makes it easy to associate the
-  markup, style, and script that are responsible for that module.
+* Camelcase is chosen to help differentiate the *Components* and
+  *Subcomponents* from classes for variants, or standalone classes. Also, it
+  stands out in normal text without additional formatting, helpful for
+  documentation. An added bonus is it follows conventions used in frontend or
+  backend logic, such as a Backbone or Django View, which makes it easy to
+  associate the markup, style, and script that are responsible for that
+  module.
 
-* *Modules* can contain other *Modules*, instead of having a separate “layout”
-  concept. A list-type *Module* could be a layout as it contains *Modules* for
-  the list items. But, the list itself also may have some additional
-  functionality, like sorting or searching, that is provided by its own
-  *Components* or other *Modules*. Variants could be used to control the
-  layout of the list, like `-list` or `-grid--three` or `-grid--four`.
+* *Components* can contain other *Components*, instead of having a separate
+  “layout” concept. A list-type *Component* could be a layout as it contains
+  *Components* for the list items. But, the list itself also may have some
+  additional functionality, like sorting or searching, that is provided by its
+  own *Subcomponents* or other *Components*. Variants could be used to control
+  the layout of the list, like `-list` or `-grid--three` or `-grid--four`.
 
-* The names “module” and “component” are chosen over “block” and “element”,
-  since those have other meanings in this context (display: block, content
-  block, HTML element). “Module” and “Component” also correlate with the same
-  JavaScript concepts. “Variant” was chosen over “modifier” for no particular
-  reason other than it didn’t start with an `m` as “Module” does.
+* The names “component” and “subcomponent” are chosen over “block” and
+  “element”, since those have other meanings in this context (`display: block`,
+  content block, HTML element, CSS class).
 
-* Keeping *Variants* separate from the full *Module* or *Component* name
+* Keeping *Variants* separate from the full *Component* or *Subcomponent* name
   (compared to schemes like BEM), makes it easier to recombine them, and is
   generally less verbose. The nesting requirement and hyphen prefixing allows
   for avoiding the problem of overly generic *Variant* names, like `.active`.
@@ -176,8 +176,9 @@ contain other *Modules*.
 
 ### Example
 
-The following example describes a `Container` *Module*, and an `Item` *Module*
-with `Item_Cover`, `Item_Title`, and `Item_ContentPreview` components.
+The following example describes a `Container` *Component*, and an `Item`
+*Component* with `Item_Cover`, `Item_Title`, and `Item_ContentPreview`
+*Subcomponents*.
 
 ```sass
 .Container
@@ -272,8 +273,8 @@ the corresponding HTML structure would look something like:
 The first story is “featured”, so it is full width, while the rest of the
 stories present themselves as half-size. The first story also gets a tag
 indicating its featured status, which needs a helper wrapper for positioning.
-(Note that the featured story has additional *Components* that the other 
-instances of the `Item` *Module* do not have.) The second story is currently
+(Note that the featured story has additional *Subcomponents* that the other 
+instances of the `Item` *Component* do not have.) The second story is currently
 being loaded using a method such as [Pjax](https://github.com/defunkt/jquery-pjax),
 so it’s in a `loading` state.
 
@@ -282,7 +283,7 @@ so it’s in a `loading` state.
 
 ## Structure
 
-Rules are organized into files by *Module*, Those that are structural or
+Rules are organized into files by *Component*, Those that are structural or
 behavioral are kept separate from rules responsible for “Look-and-Feel” (LAF).
 Everything is pulled together using a single manifest-type file, that is
 responsible for load order.
@@ -300,28 +301,28 @@ responsible for load order.
     organized into different files and folders within the `_config` folder as
     necessary to maintain logical organization.
 
-4.  Structural and behavioral rules for a *Module* and its *Components* SHOULD
-    be placed together in one file, and SHOULD be within a folder that
-    contains only that *Module* or conceptually related *Modules*.
+4.  Structural and behavioral rules for a *Component* and its *Subcomponents*
+    SHOULD be placed together in one file, and SHOULD be within a folder that
+    contains only that *Component* or conceptually related *Components*.
 
-5.  The file for a *Module* SHOULD be named the same as the *Module*.
+5.  The file for a *Component* SHOULD be named the same as the *Component*.
 
-6.  Files and folders that contain only abstract *Modules* (defined with
+6.  Files and folders that contain only abstract *Components* (defined with
     placeholder selectors) SHOULD be prefixed with a percent sign `%`:
-    `_%AbstractModule.sass`.
+    `_%AbstractComponent.sass`, `_%AbstractComponentsModule/`.
 
 7.  Look-and-Feel rules SHOULD be in a separate file, within the same folder
-    as the primary *Module* rules. If present, this file MUST be suffixed with
-    `LAF`: `ModuleName-LAF.sass`.
+    as the primary *Component* rules. If present, this file MUST be suffixed
+    with `LAF`: `ComponentName-LAF.sass`.
 
-8.  Rules for specific views (pages) SHOULD be treated as a *Module*, with
+8.  Rules for specific views (pages) SHOULD be treated as a *Component*, with
     their own folder and files named as such.
 
-9.  *Modules* for specific views MAY be aggregated into a `Views` folder if
+9.  *Components* for specific views MAY be aggregated into a `Views` folder if
     there is a small number of rules for each of those Views.
 
 10. Rules for site-wide styles, such as general LAF and base structure, SHOULD
-    be in a *Module* named `Site`.
+    be in a *Component* named `Site`.
 
 11. There SHOULD be one file — the *manifest* — that is not prefixed with an
     underscore, and SHOULD be named `app.sass`.
