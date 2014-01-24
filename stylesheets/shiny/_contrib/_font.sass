@@ -1,7 +1,7 @@
 // Defaults for the variables necessary for the font functions and mixins.
-$font--stacks               : ( (Helvetica, Arial, sans-serif), (Georgia, 'Times New Roman', serif) ) !default
-$font--weights_available    : false     !default
-$font--base_size            : 16px      !default
+$font-stacks                : ( (Helvetica, Arial, sans-serif), (Georgia, 'Times New Roman', serif) ) !default
+$font-weights_available     : false     !default
+$font-base_size             : 16px      !default
 
 
 
@@ -12,12 +12,12 @@ $font--base_size            : 16px      !default
 // $primary     - the string name of the font family to use.
 @function font-stack($primary)
     $stack: false
-    @each $font_stack in $font--stacks
+    @each $font_stack in $font-stacks
         @if nth($font_stack, 1) == $primary
             $stack: $font_stack
     @if not $stack
         @warn "Font stack #{ $primary } not set"
-        $stack: nth($font--stacks, 1)
+        $stack: nth($font-stacks, 1)
     @return $stack
 
 
@@ -34,11 +34,11 @@ $font--base_size            : 16px      !default
 @mixin font-stack($primary, $font_weight: false)
     font-family: font-stack($primary)
     @if $font_weight
-        @if not $font--weights_available
-            @warn "`$font--weights_available` must be defined to use the $font_weight parameter"
+        @if not $font-weights_available
+            @warn "`$font-weights_available` must be defined to use the $font_weight parameter"
         @else
             $available: false
-            @each $weight_set in $font--weights_available
+            @each $weight_set in $font-weights_available
                 @if nth($weight_set,1) == $primary
                     @each $weight in $weight_set
                         @if $weight == $font_weight
@@ -56,7 +56,7 @@ $font--base_size            : 16px      !default
 //
 // Returns the resulting font size, in pixels.
 @function font-size($val: 1)
-    @return $val * $font--base_size
+    @return $val * $font-base_size
 
 // Public: set the font-size to the pixel value of the given multiplier of the
 //         the base font size.

@@ -51,6 +51,12 @@ Project structure convention to communicate the responsibility of the files:
           _theme.sass
         app.sass
 
+Mixins, functions, and variables are named descriptively:
+
+    $color-brand_red: #c60352
+    $global-padding--body: 1rem
+    @mixin Cover-intrinsic_ratio()
+    @function font-stack($primary)
 
 
 ## Components
