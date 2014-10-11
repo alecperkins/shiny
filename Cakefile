@@ -194,14 +194,14 @@ _processFile = (source_file, output_folder, title) ->
 task 'build:pages', ->
     SOURCE_DIR  = path.join('.', 'docs')
     OUTPUT_DIR  = path.join('.', 'pages')
-    README      = path.join('.', 'README.md')
 
     if fs.existsSync(OUTPUT_DIR)
         util.log('Clearing old build...')
         rimraf.sync(OUTPUT_DIR)
 
     util.log 'Building pages...'
-    _processFile(README, OUTPUT_DIR, 'Shiny')
+    _processFile(path.join('.', 'README.md'), OUTPUT_DIR, 'Shiny')
+    _processFile(path.join('.', 'LICENSE'), OUTPUT_DIR, 'License - Shiny')
     fs.readdirSync(SOURCE_DIR).forEach (filename) ->
         source_file = path.join(SOURCE_DIR, filename)
         output_folder = filename.split('.')
