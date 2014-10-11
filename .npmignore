@@ -1,6 +1,8 @@
+.DS_Store
 test/
 docs/
 source/
 pages/
 .travis.yml
 Cakefile
+npm-debug.log
