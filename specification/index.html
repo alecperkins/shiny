@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width">
+        <title>Specification - Shiny</title>
+        <style>
+    .Site__ {
+        max-width       : 760px;
+        margin          : 0 auto;
+        padding         : 1em;
+    }
+
+    .Nav {
+        text-align      : right;
+    }
+    .Nav ._Link.-primary {
+        float           : left;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        position        : relative;
+    }
+
+    .DeepLink {
+        position        : absolute;
+        right           : 100%;
+        margin-right    : 0.5rem;
+    }
+
+    p img {
+        vertical-align: middle;
+    }
+
+    p code {
+        white-space: nowrap;
+    }
+
+    pre {
+        overflow-x: scroll;
+    }
+
+    /* LAF */
+
+    .Site__ {
+        color           : #0c0c0c;
+    }
+
+    p {
+        line-height     : 1.35;
+    }
+
+    p code {
+        background      : #f0f0f0;
+        border          : 1px solid #ddd;
+        padding         : 0.1em;
+    }
+
+    .Nav {
+        border-bottom   : 1px solid #ddd;
+        padding-bottom  : 1em;
+    }
+    .Nav ._Link.-primary {
+        font-weight     : 700;
+    }
+    .hljs {
+        border          : 1px solid #ddd;
+    }
+
+    .DeepLink {
+        color           : #ddd;
+        text-decoration : none;
+    }
+
+    .LanguageTag {
+        color           : #ddd;
+    }
+
+</style>
+    </head>
+    <body>
+        <div class="Site__">
+            <div class="_Header__">
+                <nav class="Nav">
+                    <a class="_Link -primary" href="/">Shiny</a>
+                    <a class="_Link" href="/specification/">Specification</a>
+                    <a class="_Link" href="/helpers/">Helpers</a>
+                </nav>
+            </div>
+            <div class="_Content__">
+                <h1 id="specification">Specification</h1>
+<p>The Shiny specification follows <a href="http://semver.org"><em>semver</em></a> and is currently
+at version <a href="http://badge.fury.io/gh/alecperkins%2Fshiny"><img src="https://badge.fury.io/gh/alecperkins%2Fshiny.svg" alt="GitHub version"></a>.</p>
+<p>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;,
+&quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be
+interpreted as described in <a href="http://tools.ietf.org/html/rfc2119">RFC 2119</a>.</p>
+<h2 id="summary">Summary</h2>
+<p>Selectors are named to communicate the role and responsibility of the element:</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Selector</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Layout</em></td>
+<td><code>.LayoutName__</code></td>
+</tr>
+<tr>
+<td><em>Region</em></td>
+<td><code>._RegionName__</code> </td>
+</tr>
+<tr>
+<td><em>Component</em></td>
+<td><code>.ComponentName</code></td>
+</tr>
+<tr>
+<td><em>Subcomponent</em></td>
+<td><code>._SubcomponentName</code></td>
+</tr>
+<tr>
+<td><em>Variant</em></td>
+<td><code>.-variant</code> or <code>.-variant_group--value</code></td>
+</tr>
+<tr>
+<td><em>State</em></td>
+<td><code>[data-state=&quot;value&quot;]</code> or <code>:disabled</code> (built-in)</td>
+</tr>
+<tr>
+<td><em>LAF</em></td>
+<td><code>._SubcomponentName-LAF</code></td>
+</tr>
+<tr>
+<td>Element <code>id</code></td>
+<td><code>#element_id</code></td>
+</tr>
+</tbody>
+</table>
+<p>Project structure convention to communicate the responsibility of the files:</p>
+<pre><code>components/
+LAF/
+layouts/
+pages/
+utilities/
+</code></pre><h2 id="layouts-and-components">Layouts and Components</h2>
+<p>A <em>Layout</em> is an arrangement of <em>Components</em> or other <em>Layouts</em> that controls
+size and position. It MAY contain one or more <em>Regions</em> used for grouping.
+<em>Layouts</em> MAY contain other <em>Layouts</em>.</p>
+<p>A <em>Component</em> is a reusable block of functionality and/or appearance. It MAY
+contain a number of <em>Subcomponents</em>. <em>Components</em> MAY contain other
+<em>Components</em>.</p>
+<p>All of the above use <em>Variants</em> and <em>States</em> to manage different
+configuration.</p>
+<h3 id="requirements">Requirements</h3>
+<ol>
+<li><p><em>Layouts</em>, <em>Regions</em>, <em>Components</em>, &amp; <em>Subcomponents</em> MUST be in
+camelcase: <code>LayoutName__</code>, <code>_RegionName__</code>, <code>ComponentName</code>,
+<code>_SubcomponentName</code>.</p>
+</li>
+<li><p><em>Layouts</em> MUST be suffixed with double underscores: <code>LayoutName__</code>.</p>
+</li>
+<li><p><em>Regions</em> MUST be prefixed with an underscore, and suffixed with double
+underscores: <code>_RegionName__</code>.</p>
+</li>
+<li><p><em>Regions</em> MUST be nested under their parent <em>Layout</em>:
+<code>.LayoutName__ ._RegionName__</code>.</p>
+</li>
+<li><p><em>Subcomponents</em> MUST be prefixed with an underscore: <code>_SubcomponentName</code>.</p>
+</li>
+<li><p><em>Subcomponents</em> MUST be nested under their parent <em>Component</em>:
+<code>.Component ._SubcomponentName</code>.</p>
+</li>
+<li><p><em>Variants</em> MUST be prefixed with a hyphen: <code>-variant</code>.</p>
+</li>
+<li><p><em>Variants</em> MUST be attached to their <em>Layout</em>, <em>Region</em>, <em>Component</em>,
+or <em>Subcomponent</em>: <code>.Component.-variant</code>.</p>
+</li>
+<li><p><em>Variants</em> SHOULD be lowercase, with underscores separating words:
+<code>-variant_name</code>.</p>
+</li>
+<li><p><em>Variants</em> MAY have subvariants (or be “grouped”), with a value that MUST
+be separated using a double hyphen: <code>-variant--value</code>.</p>
+</li>
+<li><p>Group-type <em>Variants</em> SHOULD be exclusive, ie <code>-align--left</code> and
+<code>-align--right</code> SHOULD apply contradictory rules.</p>
+</li>
+<li><p><em>States</em> MUST be described using <code>data-</code> attributes, unless there is a
+built-in version: <code>data-progress=&quot;50&quot;</code> or <code>disabled</code>.</p>
+</li>
+<li><p>The <em>State</em> selector MUST include the value <code>&quot;true&quot;</code> if it is based
+on presence (does not have its own value): <code>data-loading=&quot;true&quot;</code>.</p>
+</li>
+<li><p>The <em>State</em> value MUST be a string.</p>
+</li>
+<li><p><em>LAF</em>, classes that have no semantic purpose, SHOULD be suffixed with
+an <code>-LAF</code>: <code>_SubcomponentWrapper-LAF</code>.</p>
+</li>
+<li><p>Elements SHOULD only have one <em>Layout</em>, <em>Region</em>, <em>Component</em>, or
+<em>Subcomponent</em> class name, but MAY have as many <em>Variants</em> or <em>States</em>
+as necessary.</p>
+</li>
+<li><p><em>Layouts</em> MAY have any number of <em>Regions</em>, or none.</p>
+</li>
+<li><p><em>Components</em> MAY have any number of <em>Subcomponents</em>, or none.</p>
+</li>
+<li><p>Element ID attributes SHOULD be snake_case, (ie lowercase, with
+underscores to delimit words): <code>element_id</code></p>
+</li>
+</ol>
+<h2 id="structure">Structure</h2>
+<p>Rules are organized into files by <em>Component</em>, Those that are structural or
+behavioral are kept separate from rules responsible for “Look-and-Feel” (LAF).
+Everything is pulled together using a single manifest-type file, that is
+responsible for load order.</p>
+<h3 id="requirements">Requirements</h3>
+<ol>
+<li><p>Files that are not linked in the page MUST be prefixed with an underscore.</p>
+</li>
+<li><p>Common functions and mixins SHOULD go into a <code>_global.sass</code> file or a
+<code>_global/</code> folder. They MAY be organized into different files and folders
+within the <code>_global</code> folder as necessary to maintain logical organization.</p>
+</li>
+<li><p>Configuration settings, like fontstacks, colors, icon sets, and grid sizes
+SHOULD be placed in a <code>_config.sass</code> or a <code>_config/</code> folder. They MAY be
+organized into different files and folders within the <code>_config</code> folder as
+necessary to maintain logical organization.</p>
+</li>
+<li><p>Structural and behavioral rules for a <em>Component</em> and its <em>Subcomponents</em>
+SHOULD be placed together in one file, and SHOULD be within a folder that
+contains only that <em>Component</em> or conceptually related <em>Components</em>.</p>
+</li>
+<li><p>The file for a <em>Component</em> SHOULD be named the same as the <em>Component</em>.</p>
+</li>
+<li><p>Files and folders that contain only abstract <em>Components</em> (defined with
+placeholder selectors) SHOULD be prefixed with a percent sign <code>%</code>:
+<code>_%AbstractComponent.sass</code>, <code>_%AbstractComponentsModule/</code>.</p>
+</li>
+<li><p>Look-and-Feel rules SHOULD be in a separate file, within the same folder
+as the primary <em>Component</em> rules. If present, this file MUST be suffixed
+with <code>LAF</code>: <code>ComponentName-LAF.sass</code>.</p>
+</li>
+<li><p>Rules for specific views (pages) SHOULD be treated as a <em>Component</em>, with
+their own folder and files named as such.</p>
+</li>
+<li><p><em>Components</em> for specific views MAY be aggregated into a <code>Views</code> folder if
+there is a small number of rules for each of those Views.</p>
+</li>
+<li><p>Rules for site-wide styles, such as general LAF and base structure, SHOULD
+be in a <em>Component</em> named <code>Site</code>.</p>
+</li>
+<li><p>There SHOULD be one file — the <em>manifest</em> — that is not prefixed with an
+underscore, and SHOULD be named <code>app.sass</code>.</p>
+</li>
+<li><p>There MAY be other <em>manifests</em>, for more selective loading of styles.</p>
+</li>
+</ol>
+<h3 id="discussion">Discussion</h3>
+<ul>
+<li><p>There is an appeal to having each file import the parts it needs. However,
+the global nature of Sass/CSS and the behavior of placeholder selectors
+means keeping this managable is often more trouble than it’s worth. Hacks
+like the <code>+exports</code> trick introduce their own share of complexity.</p>
+</li>
+<li><p>The distinction between LAF and structural is fuzzy, and varies depending on
+circumstance. In one usage, <code>margin</code> may simply increase the whitespace
+around and element, and has no bearing on the raw functionality. In other,
+<code>margin</code> may be the primary factor in establishing a certain layout. If a
+declaration can be omitted without sacrificing functionality, it should be
+considered LAF. These commonly are colors, fonts, and often padding and
+text alignment. Even <code>display</code> could be considered LAF, but is more commonly
+a structural style. Any declaration that significantly changes the position
+of an element, its sizing, or its relationship to surrounding elements,
+should be considered structural. It’s very usecase specific and requires
+sound judgement.</p>
+</li>
+<li><p>Many of the items in this section are “SHOULD” instead of “MUST”.
+Organization is very project- and workflow-specific, so it doesn’t make
+sense to have strict requirements.</p>
+</li>
+</ul>
+
+            </div>
+        </div>
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+<script>
+    (function(){
+
+        // Add a label that indicates the language used by the block.
+        var code_blocks = document.querySelectorAll('pre code');
+        for(var i=0; i<code_blocks.length; i++) {
+            var language = code_blocks[i].classList[0].replace('lang-','');
+            var lang_tag = document.createElement('div');
+            lang_tag.className = 'LanguageTag';
+            lang_tag.innerText = language;
+            code_blocks[i].parentElement.insertBefore(lang_tag, code_blocks[i]);
+        }
+
+        hljs.initHighlightingOnLoad();
+    })();
+</script>
+        <script>
+    // Add deep links that nest based on heading hierarchy.
+    (function(){
+        var heading_counts = {};
+        var heading_stack = []
+        var heading_els = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        for(var i = 0; i < heading_els.length; i++) {
+            var current_heading = heading_els[i];
+            current_heading.level = parseInt(current_heading.tagName.substring(1));
+            while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level >= current_heading.level) {
+                heading_stack.pop()
+            }
+            heading_stack.push(current_heading);
+            var parent_id = '';
+            if(heading_stack.length > 1) {
+                parent_id = heading_stack[heading_stack.length - 2].id;
+            }
+            var text = current_heading.innerText;
+            var slug = text.toLowerCase().replace(/[^\w]+/g,'-').replace(/\-+/g,'-').replace(/^\-+/g,'').replace(/\-+$/g,'');
+            slug = parent_id + '/' + slug;
+            if(!heading_counts[slug]) {
+                heading_counts[slug] = 0;
+            }
+            heading_counts[slug]++;
+            if(heading_counts[slug] > 1) {
+                slug = slug + '-' + heading_counts[slug].toString()
+            }
+            current_heading.id = slug;
+            current_heading.innerHTML = '<a class="DeepLink" href="#' + slug + '">#</a>' + current_heading.innerHTML
+        }
+    })();
+</script>
+        <script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '529e667f8bfdf7747e000052');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+    </body>
+</html>

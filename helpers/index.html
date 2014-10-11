@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width">
+        <title>Helpers - Shiny</title>
+        <style>
+    .Site__ {
+        max-width       : 760px;
+        margin          : 0 auto;
+        padding         : 1em;
+    }
+
+    .Nav {
+        text-align      : right;
+    }
+    .Nav ._Link.-primary {
+        float           : left;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        position        : relative;
+    }
+
+    .DeepLink {
+        position        : absolute;
+        right           : 100%;
+        margin-right    : 0.5rem;
+    }
+
+    p img {
+        vertical-align: middle;
+    }
+
+    p code {
+        white-space: nowrap;
+    }
+
+    pre {
+        overflow-x: scroll;
+    }
+
+    /* LAF */
+
+    .Site__ {
+        color           : #0c0c0c;
+    }
+
+    p {
+        line-height     : 1.35;
+    }
+
+    p code {
+        background      : #f0f0f0;
+        border          : 1px solid #ddd;
+        padding         : 0.1em;
+    }
+
+    .Nav {
+        border-bottom   : 1px solid #ddd;
+        padding-bottom  : 1em;
+    }
+    .Nav ._Link.-primary {
+        font-weight     : 700;
+    }
+    .hljs {
+        border          : 1px solid #ddd;
+    }
+
+    .DeepLink {
+        color           : #ddd;
+        text-decoration : none;
+    }
+
+    .LanguageTag {
+        color           : #ddd;
+    }
+
+</style>
+    </head>
+    <body>
+        <div class="Site__">
+            <div class="_Header__">
+                <nav class="Nav">
+                    <a class="_Link -primary" href="/">Shiny</a>
+                    <a class="_Link" href="/specification/">Specification</a>
+                    <a class="_Link" href="/helpers/">Helpers</a>
+                </nav>
+            </div>
+            <div class="_Content__">
+                <h1 id="helpers">Helpers</h1>
+<p>The <code>shiny</code> package includes helpers for working with Shiny-style variants: a
+JavaScript module for server- or client-side class manipulation, and Sass
+mixins for cleaner extending of variant placeholder selectors.</p>
+<h2 id="javascript">JavaScript</h2>
+<p>The <code>shiny</code> package is CommonJS compatible, and works well on the server for
+initial rendering and on the client, using <a href="http://browserify.org/">Browserify</a>,
+for dynamic interfaces.</p>
+<h3 id="in-action">In action</h3>
+<iframe width="100%" height="300" src="http://jsfiddle.net/alecperkins/tkzqbd23/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h3 id="-classes-set-"><code>Classes::set</code></h3>
+<pre><code class="lang-javascript">var Classes = require(&#39;shiny&#39;).Classes;
+
+var variants = new Classes(&#39;TextBlock&#39;);
+variants.set(&#39;align&#39;, &#39;right&#39;);
+variants.set(&#39;lede&#39;)
+
+var markup = &#39;&lt;p class=&quot;&#39; + variants + &#39;&quot;&gt;...&lt;/p&gt;&#39;
+</code></pre>
+<p><code>markup</code> is then</p>
+<pre><code class="lang-html">&lt;p class=&quot;TextBlock -lede -align--right&quot;&gt;...&lt;/p&gt;
+</code></pre>
+<h3 id="-classes-add-"><code>Classes::add</code></h3>
+<p>The <code>Classes</code> instance also has an <code>add</code> method for convenience that behaves
+the same as set, but only if the value is truthy.</p>
+<pre><code class="lang-javascript">variants.add(&#39;effect&#39;, block.effect);
+</code></pre>
+<p>will only add the variant <code>-effect--dropcaps</code> if <code>effect</code> is defined on the
+<code>block</code>. If the value is <code>true</code>, it is treated like a switch:</p>
+<pre><code class="lang-javascript">variants.add(&#39;first&#39;, i===0);
+</code></pre>
+<p>adds the variant <code>-first</code>.</p>
+<p>(State helpers are not included since assignment to the element dataset can
+be used more directly, eg <code>el.dataset.loaded = state.loaded;</code>,
+<code>data-loaded=&quot;{{ loaded }}&quot;</code>.)</p>
+<h2 id="sass">Sass</h2>
+<p>These mixins work in Ruby Sass v3.3+, and partially work in
+<a href="http://sass-lang.com/libsass">libSass</a>. By design they only extend
+placeholder classes.</p>
+<h3 id="in-action">In action</h3>
+<p><p class="sassmeister" data-gist-id="b6b2990a3fdb93246bc2" data-height="480"><a href="http://sassmeister.com/gist/b6b2990a3fdb93246bc2">Play with this gist on SassMeister.</a></p><script src="http://cdn.sassmeister.com/js/embed.js" async></script></p>
+<h3 id="-include-extend-"><code>@include extend</code></h3>
+<p>Using <code>@extend</code> with multiple variants can get repetitive:</p>
+<pre><code class="lang-scss">.Story {
+    @extend %Item;
+    @extend %Item%-size--half;
+    @extend %Item%-align--center;
+    @extend %Item%-dark;
+}
+</code></pre>
+<p>The <code>@include extend</code> mixin provides a cleaner approach that also enforces the
+syntax. It takes a Component, Subcomponent, Layout, or Region name, and an
+optional list of variants to apply.</p>
+<pre><code class="lang-scss">.Story {
+    @include extend(Item, size half, align center, dark);
+}
+</code></pre>
+<h3 id="-include-extend-variants-"><code>@include extend-variants</code></h3>
+<p>Similar to <code>@include extend</code>, but does not extend the given Component, only
+the variants. This is useful for remapping certain abstract variants to more
+semantic names.</p>
+<pre><code class="lang-scss">.Story {
+    @include extend(Item, size small);
+    &amp;.-featured {
+        @include extend-variants(Item, size large);
+    }
+}
+</code></pre>
+<pre><code class="lang-css">.Story { ... }
+.Story.-featured { ... }
+</code></pre>
+<p>Using the regular <code>@include extend</code> would result in redundant selectors:</p>
+<pre><code class="lang-css">.Story, .Story.-featured { ... }
+.Story.-featured { ... }
+</code></pre>
+<h3 id="-include-state-"><code>@include state</code></h3>
+<p>A helper for specifying declarations for a given state. The mixin can take
+either a name, <code>@include state(loading)</code>, or a name and value,
+<code>@include state(progress, 50)</code>. If a value is not specified, it will default
+to <code>true</code>.</p>
+<pre><code class="lang-scss">.Gallery {
+    @include state(loading) {
+        border-color: green;
+    }
+    @include state(progress, 50) {
+        opacity: 0.5;
+    }
+}
+</code></pre>
+<pre><code class="lang-css">.Gallery[data-loading=&quot;true&quot;] {
+    border-color: green;
+}
+.Gallery[data-progress=&quot;50&quot;] {
+    opacity: 0.5;
+}
+</code></pre>
+<h3 id="-include-auto-extend-"><code>@include auto-extend</code></h3>
+<p>Sometimes, the placeholders need to be directly converted to regular classes.
+The <code>@include auto-extend</code> mixin does this.</p>
+<pre><code class="lang-scss">@include auto-extend(Container, full, spaceless, height half, height third)
+</code></pre>
+<pre><code class="lang-css">.Container { ... }
+.Container.-full { ... }
+.Container.-spaceless { ... }
+.Container.-height--half { ... }
+.Container.-height--third { ... }
+</code></pre>
+<p>Now, these classes can be used directly. A useful development pattern is to
+auto-extend the component and variants, use the presentational classes in
+markup and identify the desired combinations and patterns, then replace them
+with more semantic classes that use the <code>@include extend</code> helper.</p>
+
+            </div>
+        </div>
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+<script>
+    (function(){
+
+        // Add a label that indicates the language used by the block.
+        var code_blocks = document.querySelectorAll('pre code');
+        for(var i=0; i<code_blocks.length; i++) {
+            var language = code_blocks[i].classList[0].replace('lang-','');
+            var lang_tag = document.createElement('div');
+            lang_tag.className = 'LanguageTag';
+            lang_tag.innerText = language;
+            code_blocks[i].parentElement.insertBefore(lang_tag, code_blocks[i]);
+        }
+
+        hljs.initHighlightingOnLoad();
+    })();
+</script>
+        <script>
+    // Add deep links that nest based on heading hierarchy.
+    (function(){
+        var heading_counts = {};
+        var heading_stack = []
+        var heading_els = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        for(var i = 0; i < heading_els.length; i++) {
+            var current_heading = heading_els[i];
+            current_heading.level = parseInt(current_heading.tagName.substring(1));
+            while(heading_stack[heading_stack.length - 1] && heading_stack[heading_stack.length - 1].level >= current_heading.level) {
+                heading_stack.pop()
+            }
+            heading_stack.push(current_heading);
+            var parent_id = '';
+            if(heading_stack.length > 1) {
+                parent_id = heading_stack[heading_stack.length - 2].id;
+            }
+            var text = current_heading.innerText;
+            var slug = text.toLowerCase().replace(/[^\w]+/g,'-').replace(/\-+/g,'-').replace(/^\-+/g,'').replace(/\-+$/g,'');
+            slug = parent_id + '/' + slug;
+            if(!heading_counts[slug]) {
+                heading_counts[slug] = 0;
+            }
+            heading_counts[slug]++;
+            if(heading_counts[slug] > 1) {
+                slug = slug + '-' + heading_counts[slug].toString()
+            }
+            current_heading.id = slug;
+            current_heading.innerHTML = '<a class="DeepLink" href="#' + slug + '">#</a>' + current_heading.innerHTML
+        }
+    })();
+</script>
+        <script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '529e667f8bfdf7747e000052');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+    </body>
+</html>

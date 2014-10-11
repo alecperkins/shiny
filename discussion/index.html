@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width">
-        <title>Shiny</title>
+        <title>Discussion - Shiny</title>
         <style>
     .Site__ {
         max-width       : 760px;
@@ -88,57 +88,65 @@
                 </nav>
             </div>
             <div class="_Content__">
-                <h1 id="shiny">Shiny</h1>
-<p><a href="http://badge.fury.io/gh/alecperkins%2Fshiny"><img src="https://badge.fury.io/gh/alecperkins%2Fshiny.svg" alt="version"></a> <a href="https://travis-ci.org/alecperkins/shiny"><img src="https://travis-ci.org/alecperkins/shiny.png?branch=master" alt="Build Status"></a> <a href="http://shiny.tools">http://shiny.tools</a></p>
-<p><em>Shiny</em> is a method of organizing CSS rules by purpose. It provides a naming
-scheme to communicate selector responsibility, and suggests a convention for
-file layout. While made with preprocessors like <a href="http://sass-lang.com">Sass</a>
-in mind, Shiny can be used with plain, handwritten CSS. The specification
-addresses selector naming, but the conventions work best when applied to the
-HTML and JavaScript aspects of the project, as well.</p>
-<p>The specification is centered around the concepts of <em>Components</em> and
-<em>Layouts</em>. Components represent a minimal unit of complete functionality, eg a
-button, a card, an input, or a header. Layouts are used to arrange components,
-eg a story list, UI panel, or whole page. Both Components and Layouts use
-<em>Variants</em> and <em>States</em> to manage related configurations. Shiny also makes a
-distinction between styles for structure and styles for look-and-feel
-purposes.</p>
-<h2 id="specification">Specification</h2>
-<p>The selector syntax looks like: <code>.LayoutName__</code>, <code>._RegionName__</code>,
-<code>.ComponentName</code>, <code>._SubcomponentName</code>, <code>.-variant</code>, <code>.-variant_group--val</code>,
-<code>[data-state=&quot;val&quot;]</code>. Project organization is focused on separating
-structural styles from look-and-feel styles, through the use of appropriately
-named files.</p>
-<p>See the full <a href="http://shiny.tools/specification/">specification</a> for
-details and examples of both syntax and organization.</p>
-<p>See a <a href="view-source:http://marquee.by/">real-world example</a>.</p>
-<h2 id="helpers">Helpers</h2>
-<p>The <code>shiny</code> package provides JavaScript and Sass helpers for working with
-Shiny-style classes.</p>
-<p>Install the package using <a href="https://www.npmjs.org/">npm</a>, <code>npm install shiny</code>,
-then require or import as necessary: <code>var shiny = require(&#39;shiny&#39;);</code> or
-<code>@import &quot;shiny&quot;</code>.</p>
-<p>For details on usage, see the <a href="http://shiny.tools/helpers/">helpers documentation</a>.</p>
-<h2 id="source-and-issues">Source And Issues</h2>
-<p>The project source for the spec and the helpers is open source,
-<a href="http://unlicense.org">unlicensed</a>, and is available on
-<a href="https://github.com/alecperkins/shiny">GitHub</a>. Bugs, problems, features,
-comments, joys, and concerns are all welcome in the project
-<a href="https://github.com/alecperkins/shiny/issues">issues</a>, as are pull requests.</p>
-<h2 id="backstory">Backstory</h2>
-<p>The Shiny method is similar to, and influenced by, the <a href="http://smacss.com/">SMACSS</a>
-and <a href="http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/">BEM</a> 
-techniques. It also draws some inspiration from <a href="http://teamtreehouse.com/library/sass-conf/managing-complex-projects-with-design-components-john-albin-wilkins">a talk</a>
-by John Albin Wilkins at Sass Conf 2013. However, it attempts to have a
-friendlier syntax than BEM and SMACSS that also works well with client-side
-JavaScript frameworks. <a href="http://marionettejs.com/">Marionette</a> and <a href="http://facebook.github.io/react/">React</a>
-in particular have been influential.</p>
-<h2 id="authors">Authors</h2>
+                <h1 id="discussion">Discussion</h1>
 <ul>
-<li><a href="https://alecperkins.net">Alec Perkins</a></li>
+<li><p>If a <em>Subcomponent</em> is reusable across different <em>Components</em>, or outside of
+the <em>Component</em>, then it is probably itself a <em>Component</em>. The underscore
+before the <code>SubcomponentName</code> is intended to suggest that the <em>Subcomponent</em>
+is private to the <em>Component</em>.</p>
+</li>
+<li><p><em>Subcomponents</em> do not have hard prefixing, to avoid the need for messy
+<code>@extend</code> situations in cases where the <em>Variants</em> need to modify the
+<em>Subcomponents</em>, and nested extends would result in redundant selectors.</p>
+</li>
+<li><p>CamelCase is chosen to help differentiate the <em>Components</em> and
+<em>Subcomponents</em> from classes for variants. Also, it stands out in normal
+text without additional formatting, helpful for documentation. An added
+bonus is it follows conventions used in frontend or backend logic, such as a
+Backbone or Django View, which makes it easy to associate the markup, style,
+and script that are responsible for that module.</p>
+</li>
+<li><p>The names “component” and “subcomponent” are chosen over “block”, “element”,
+or “class”, since those have other meanings in this context (<code>display: block</code>,
+content block, HTML element, CSS class).</p>
+</li>
+<li><p>Keeping <em>Variants</em> separate from the full <em>Component</em> or <em>Subcomponent</em> name
+(compared to schemes like BEM), makes it easier to recombine them, and is
+generally less verbose. The nesting requirement and hyphen prefixing allows
+for avoiding the problem of overly generic <em>Variant</em> names, like <code>.active</code>.
+Not using the full module prefixing still allows for global adjustments to
+variants for debugging purposes, eg <code>.-active { border: 1px solid red }</code>.
+(This may be necessary in non-debugging situations, but is a bad idea so is
+considered a violation of the Shiny spec.) Also, it’s possible to detect a
+non-nested class prefixed with a hyphen using a linter, to enforce this rule.</p>
+</li>
+<li><p>Singular <em>Variants</em> are considered “flags” or “switches”, and generally
+should be useful in different combinations, like
+<code>class=&quot;Story -featured -selected&quot;</code>. <em>Variants</em> with subvariants are
+considered a property and a value, and are best used exclusively from each
+other, like <code>class=&quot;StoryList -grid--three&quot;</code> or
+<code>class=&quot;StoryList -grid--four -selected&quot;</code>.</p>
+</li>
+<li><p><em>State</em> versus <em>Variant</em> is potentially fuzzy. A good differentiator is if
+it is being modified by JavaScript, like “disabled”, “loading”, or
+“progress”, it’s a <em>State</em>. If it is not going to change once the page
+loads, it is a <em>Variant</em>. It’s also a good idea to keep the <em>State</em> values
+JSON-compatible, since some JavaScript libraries parse <code>data-</code> attributes as
+JSON when accessing them. (This is also why the <code>&quot;true&quot;</code> is required.)</p>
+</li>
+<li><p>The <em>LAF</em> distinction makes it clear that the element with that class has
+no semantic role, and can be modified or removed as the look-and-feel
+dictate. With sound markup construction, <em>LAF</em> elements are unnecessary.</p>
+</li>
+<li><p>More sophisticated selector prefixes, with characters like <code>^</code> and <code>+</code> are
+possible, but are easy to confuse with things like regex and sibling
+selectors, or are just awkward to type.</p>
+</li>
+<li><p>Using underscore delimited IDs instead of hyphenated allows them to more
+easily correspond to script variables, and also clearly distinguishes them
+from the other kinds of selectors.</p>
+</li>
 </ul>
-<h2 id="license">License</h2>
-<p>Unlicensed aka Public Domain. See <a href="https://github.com/alecperkins/shiny/blob/master/LICENSE">/LICENSE</a> for more information.</p>
 
             </div>
         </div>
