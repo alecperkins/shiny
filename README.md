@@ -71,7 +71,7 @@ in particular have been influential.
 
 ## Authors
 
-* [Alec Perkins](https://alecperkins.net)
+* [Alec Perkins](http://alecperkins.net)
 
 
 
