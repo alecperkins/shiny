@@ -1,9 +1,43 @@
 {
-  "name": "sass-shiny",
-  "version": "0.9.0",
+  "name": "shiny",
+  "version": "1.0.0-rc.1",
+  "description": "",
+  "main": "lib/index.js",
+  "dependencies": {},
   "devDependencies": {
-    "markdown": "~0.5.0",
-    "grunt": "~0.4.2",
-    "grunt-markdown": "~0.4.0"
-  }
+    "coffee-script": "^1.8.0",
+    "marked": "^0.3.2",
+    "mocha": "^1.21.4",
+    "node-sass": "^0.9.6",
+    "rimraf": "^2.2.8",
+    "should": "^4.0.4"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha --compilers coffee:coffee-script/register",
+    "build": "coffee -o lib/ -c source/",
+    "pages": "cake build:pages && git checkout gh-pages && mv pages/* . && rm -r pages/ && git add . && git commit -m 'Update Pages' && git checkout develop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alecperkins/shiny.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alecperkins/shiny/issues"
+  },
+  "keywords": [
+    "css",
+    "sass",
+    "components"
+  ],
+  "author": "Alec Perkins <mail@alecperkins.me>",
+  "license": {
+    "type": "Unlicense",
+    "url": "https://raw.github.com/alecperkins/shiny/master/LICENSE"
+  },
+  "contributors": [
+    {
+      "name": "Alec Perkins",
+      "email": "mail@alecperkins.me"
+    }
+  ]
 }

@@ -1,0 +1,6 @@
+test/
+docs/
+source/
+pages/
+.travis.yml
+Cakefile
