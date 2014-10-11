@@ -201,7 +201,7 @@ task 'build:pages', ->
 
     util.log 'Building pages...'
     _processFile(path.join('.', 'README.md'), OUTPUT_DIR, 'Shiny')
-    _processFile(path.join('.', 'LICENSE'), OUTPUT_DIR, 'License - Shiny')
+    _processFile(path.join('.', 'LICENSE'), path.join(OUTPUT_DIR, 'license'), 'License - Shiny')
     fs.readdirSync(SOURCE_DIR).forEach (filename) ->
         source_file = path.join(SOURCE_DIR, filename)
         output_folder = filename.split('.')

@@ -30,10 +30,8 @@
     "components"
   ],
   "author": "Alec Perkins <mail@alecperkins.me>",
-  "license": {
-    "type": "Unlicense",
-    "url": "https://raw.github.com/alecperkins/shiny/master/LICENSE"
   },
+  "license": "Unlicense",
   "contributors": [
     {
       "name": "Alec Perkins",

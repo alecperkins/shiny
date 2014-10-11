@@ -77,5 +77,4 @@ in particular have been influential.
 
 ## License
 
-Unlicensed aka Public Domain. See [/LICENSE](https://github.com/alecperkins/shiny/blob/master/LICENSE) for more information.
-
+Unlicensed aka Public Domain. See [/LICENSE](http://shiny.tools/license/) for more information.
