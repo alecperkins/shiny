@@ -6,10 +6,11 @@ class Classes
     # Public: create a manager instance.
     #
     # initial... - (optional) zero or more String classes to include in the
-    #              class name output.
+    #              class name output. `null`, `undefined`, or empty initial
+    #              classes will be ignored.
     #
     constructor: (initial...) ->
-        @_initial = initial
+        @_initial = initial.filter (c) -> c?.length > 0
         @_groups = {}
         @_switches = {}
 

@@ -9,6 +9,14 @@ describe 'Classes', ->
             c = new Classes('InitialClass')
             c.toString().should.equal('InitialClass')
 
+        it 'should handle multiple initial classes', ->
+            c = new Classes('InitialClass', 'OtherClass', 'ThirdClass')
+            c.toString().should.equal('InitialClass OtherClass ThirdClass')
+
+        it 'should ignore falsey initial classes', ->
+            c = new Classes('InitialClass', null, 'ThirdClass')
+            c.toString().should.equal('InitialClass ThirdClass')
+
         it 'should be empty if no initial', ->
             c = new Classes()
             c.toString().should.equal('')
