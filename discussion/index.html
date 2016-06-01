@@ -146,6 +146,16 @@ selectors, or are just awkward to type.</p>
 easily correspond to script variables, and also clearly distinguishes them
 from the other kinds of selectors.</p>
 </li>
+<li><p>The <em>Free Modifiers</em> should be used minimally and kept as specific as
+possible. Such a class scheme is useful for broadly applicable, simple,
+specific styles that need to be applied frequently to elements where a full
+<em>Layout</em>, <em>Region</em>, <em>Component</em>, or <em>Subcomponent</em> definition would be
+excessive or nonsensical. <em>Free Modifiers</em> often work well as mixins, or in
+early development before all the <em>Layouts</em> and <em>Components</em> have been defined.
+If more than a couple <em>Free Modifiers</em> are used, the suitable <em>Layout</em>, etc
+should be defined, and the rules applied through that. (The term similarity to
+“free radical” is not accidental.)</p>
+</li>
 </ul>
 
             </div>
@@ -200,18 +210,15 @@ from the other kinds of selectors.</p>
         }
     })();
 </script>
-        <script type="text/javascript">
-  var _gauges = _gauges || [];
-  (function() {
-    var t   = document.createElement('script');
-    t.type  = 'text/javascript';
-    t.async = true;
-    t.id    = 'gauges-tracker';
-    t.setAttribute('data-site-id', '529e667f8bfdf7747e000052');
-    t.src = '//secure.gaug.es/track.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(t, s);
-  })();
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-9658094-5', 'auto');
+  ga('send', 'pageview');
+
 </script>
     </body>
 </html>

@@ -102,28 +102,56 @@ for dynamic interfaces.</p>
 <h3 id="-classes-set-"><code>Classes::set</code></h3>
 <pre><code class="lang-javascript">var Classes = require(&#39;shiny&#39;).Classes;
 
-var variants = new Classes(&#39;TextBlock&#39;);
-variants.set(&#39;align&#39;, &#39;right&#39;);
-variants.set(&#39;lede&#39;)
+var cx = new Classes(&#39;TextBlock&#39;);
+cx.set(&#39;align&#39;, &#39;right&#39;);
+cx.set(&#39;lede&#39;);
 
-var markup = &#39;&lt;p class=&quot;&#39; + variants + &#39;&quot;&gt;...&lt;/p&gt;&#39;
+var markup = &#39;&lt;p class=&quot;&#39; + cx + &#39;&quot;&gt;...&lt;/p&gt;&#39;
 </code></pre>
 <p><code>markup</code> is then</p>
 <pre><code class="lang-html">&lt;p class=&quot;TextBlock -lede -align--right&quot;&gt;...&lt;/p&gt;
 </code></pre>
+<p><code>set</code> also can take an object to set multiple variants at once:</p>
+<pre><code class="lang-javascript">cx.set({
+    align: right,
+    lede: true
+});
+</code></pre>
 <h3 id="-classes-add-"><code>Classes::add</code></h3>
 <p>The <code>Classes</code> instance also has an <code>add</code> method for convenience that behaves
 the same as set, but only if the value is truthy.</p>
-<pre><code class="lang-javascript">variants.add(&#39;effect&#39;, block.effect);
+<pre><code class="lang-javascript">cx.add(&#39;effect&#39;, block.effect);
 </code></pre>
 <p>will only add the variant <code>-effect--dropcaps</code> if <code>effect</code> is defined on the
 <code>block</code>. If the value is <code>true</code>, it is treated like a switch:</p>
-<pre><code class="lang-javascript">variants.add(&#39;first&#39;, i===0);
+<pre><code class="lang-javascript">cx.add(&#39;first&#39;, i === 0);
 </code></pre>
 <p>adds the variant <code>-first</code>.</p>
 <p>(State helpers are not included since assignment to the element dataset can
 be used more directly, eg <code>el.dataset.loaded = state.loaded;</code>,
 <code>data-loaded=&quot;{{ loaded }}&quot;</code>.)</p>
+<p>Like <code>set</code>, <code>add</code> can also take an object:</p>
+<pre><code class="lang-javascript">cx.add({
+   effect: block.effect,
+   first: i === 0 
+});
+</code></pre>
+<h3 id="shorthand">Shorthand</h3>
+<p>The <code>shiny</code> package itself is a function that acts as a shorthand for the
+<code>Classes</code> constructor. Combined with the chaining behavior, it allows for a
+concise creation of the class-set.</p>
+<pre><code class="lang-javascript">var shiny = require(&#39;shiny&#39;);
+
+var cx = shiny(&#39;TextBlock&#39;).set({
+    align: &#39;right&#39;
+    lede: true
+}).add({
+    effect: block.effect,
+    first: i===0
+});
+
+var markup = &#39;&lt;p class=&quot;&#39; + cx + &#39;&quot;&gt;...&lt;/p&gt;&#39;
+</code></pre>
 <h2 id="sass">Sass</h2>
 <p>These mixins work in Ruby Sass v3.3+, and partially work in
 <a href="http://sass-lang.com/libsass">libSass</a>. By design they only extend
@@ -163,6 +191,12 @@ semantic names.</p>
 <p>Using the regular <code>@include extend</code> would result in redundant selectors:</p>
 <pre><code class="lang-css">.Story, .Story.-featured { ... }
 .Story.-featured { ... }
+</code></pre>
+<p>Users of the indented Sass syntax can also use the even more concise notation:</p>
+<pre><code class="lang-sass">.Story
+    +extend(Item, size small)
+    &amp;.-featured
+        +extend-variants(Item, size large)
 </code></pre>
 <h3 id="-include-state-"><code>@include state</code></h3>
 <p>A helper for specifying declarations for a given state. The mixin can take
@@ -253,18 +287,15 @@ with more semantic classes that use the <code>@include extend</code> helper.</p>
         }
     })();
 </script>
-        <script type="text/javascript">
-  var _gauges = _gauges || [];
-  (function() {
-    var t   = document.createElement('script');
-    t.type  = 'text/javascript';
-    t.async = true;
-    t.id    = 'gauges-tracker';
-    t.setAttribute('data-site-id', '529e667f8bfdf7747e000052');
-    t.src = '//secure.gaug.es/track.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(t, s);
-  })();
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-9658094-5', 'auto');
+  ga('send', 'pageview');
+
 </script>
     </body>
 </html>
