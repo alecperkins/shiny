@@ -1,6 +1,6 @@
 {
   "name": "shiny",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0",
   "description": "A specification for naming and organizing CSS rules, with Sass and JavaScript helpers for convenience and conformance.",
   "homepage": "http://shiny.tools",
   "main": "lib/index.js",
