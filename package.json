@@ -9,7 +9,7 @@
     "coffee-script": "^1.8.0",
     "marked": "^0.3.2",
     "mocha": "^1.21.4",
-    "node-sass": "^0.9.6",
+    "node-sass": "^3.7.0",
     "rimraf": "^2.2.8",
     "should": "^4.0.4"
   },
