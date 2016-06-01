@@ -56,3 +56,13 @@
   easily correspond to script variables, and also clearly distinguishes them
   from the other kinds of selectors.
 
+* The *Free Modifiers* should be used minimally and kept as specific as
+  possible. Such a class scheme is useful for broadly applicable, simple,
+  specific styles that need to be applied frequently to elements where a full
+  *Layout*, *Region*, *Component*, or *Subcomponent* definition would be
+  excessive or nonsensical. *Free Modifiers* often work well as mixins, or in
+  early development before all the *Layouts* and *Components* have been defined.
+  If more than a couple *Free Modifiers* are used, the suitable *Layout*, etc
+  should be defined, and the rules applied through that. (The term similarity to
+  “free radical” is not accidental.)
+

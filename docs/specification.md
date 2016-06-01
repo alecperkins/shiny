@@ -22,6 +22,7 @@ Role            | Selector
 *State*         | `[data-state="value"]` or `:disabled` (built-in)
 *LAF*           | `._SubcomponentName-LAF`
 Element `id`    | `#element_id`
+*Free Modifier* | `name` or `group--value`
 
 Project structure convention to communicate the responsibility of the files:
 
@@ -45,6 +46,9 @@ contain a number of *Subcomponents*. *Components* MAY contain other
 
 All of the above use *Variants* and *States* to manage different
 configuration.
+
+A *Free Modifier* is a reusable ruleset that does not belong to a *Layout* or
+*Component*.
 
 
 ### Requirements
@@ -100,7 +104,16 @@ configuration.
 18. *Components* MAY have any number of *Subcomponents*, or none.
 
 19. Element ID attributes SHOULD be snake_case, (ie lowercase, with
-    underscores to delimit words): `element_id`
+    underscores to delimit words): `element_id`.
+
+20. *Free Modifiers* MUST be lowercase and MUST NOT start with a hyphen or
+    underscore: `modifier`, `other_modifier`.
+
+21. *Free Modifiers* MAY be a singular class name or a group, using the double-
+    hyphen syntax: `label_laf`, `column--main`.
+
+22. *Free Modifiers* MUST NOT use hyphens to separate words except as used in
+    the group syntax.
 
 
 
