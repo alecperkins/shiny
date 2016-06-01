@@ -21,11 +21,11 @@ for dynamic interfaces.
 ```javascript
 var Classes = require('shiny').Classes;
 
-var variants = new Classes('TextBlock');
-variants.set('align', 'right');
-variants.set('lede')
+var cx = new Classes('TextBlock');
+cx.set('align', 'right');
+cx.set('lede');
 
-var markup = '<p class="' + variants + '">...</p>'
+var markup = '<p class="' + cx + '">...</p>'
 ```
 
 `markup` is then
@@ -34,20 +34,29 @@ var markup = '<p class="' + variants + '">...</p>'
 <p class="TextBlock -lede -align--right">...</p>
 ```
 
+`set` also can take an object to set multiple variants at once:
+
+```javascript
+cx.set({
+    align: right,
+    lede: true
+});
+```
+
 ### `Classes::add`
 
 The `Classes` instance also has an `add` method for convenience that behaves
 the same as set, but only if the value is truthy.
 
 ```javascript
-variants.add('effect', block.effect);
+cx.add('effect', block.effect);
 ```
 
 will only add the variant `-effect--dropcaps` if `effect` is defined on the
 `block`. If the value is `true`, it is treated like a switch:
 
 ```javascript
-variants.add('first', i===0);
+cx.add('first', i === 0);
 ```
 
 adds the variant `-first`.
@@ -56,7 +65,34 @@ adds the variant `-first`.
 be used more directly, eg `el.dataset.loaded = state.loaded;`,
 `data-loaded="{{ loaded }}"`.)
 
+Like `set`, `add` can also take an object:
 
+```javascript
+cx.add({
+   effect: block.effect,
+   first: i === 0 
+});
+```
+
+### Shorthand
+
+The `shiny` package itself is a function that acts as a shorthand for the
+`Classes` constructor. Combined with the chaining behavior, it allows for a
+concise creation of the class-set.
+
+```javascript
+var shiny = require('shiny');
+
+var cx = shiny('TextBlock').set({
+    align: 'right'
+    lede: true
+}).add({
+    effect: block.effect,
+    first: i===0
+});
+
+var markup = '<p class="' + cx + '">...</p>'
+```
 
 ## Sass
 
@@ -117,6 +153,16 @@ Using the regular `@include extend` would result in redundant selectors:
 ```css
 .Story, .Story.-featured { ... }
 .Story.-featured { ... }
+```
+
+
+Users of the indented Sass syntax can also use the even more concise notation:
+
+```sass
+.Story
+    +extend(Item, size small)
+    &.-featured
+        +extend-variants(Item, size large)
 ```
 
 

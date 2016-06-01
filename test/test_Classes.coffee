@@ -3,6 +3,7 @@ should = require 'should'
 describe 'Classes', ->
 
     Classes = require '../source/Classes'
+    shiny = require '../source'
 
     describe 'constructor', ->
         it 'should output the initial class on .toString()', ->
@@ -105,3 +106,20 @@ describe 'Classes', ->
             c.add('group', '')
             c.add('group', 0)
             c.toString().should.equal('InitialClass')
+
+    describe 'shorthand', ->
+        it 'should output the initial class on .toString()', ->
+            c = shiny('InitialClass')
+            c.toString().should.equal('InitialClass')
+
+        it 'should handle multiple initial classes', ->
+            c = shiny('InitialClass', 'OtherClass', 'ThirdClass')
+            c.toString().should.equal('InitialClass OtherClass ThirdClass')
+
+        it 'should ignore falsey initial classes', ->
+            c = shiny('InitialClass', null, 'ThirdClass')
+            c.toString().should.equal('InitialClass ThirdClass')
+
+        it 'should be empty if no initial', ->
+            c = shiny()
+            c.toString().should.equal('')
