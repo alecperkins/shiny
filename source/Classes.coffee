@@ -18,12 +18,19 @@ class Classes
     #         value. Previously set variants of the same name and type will
     #         be overridden (with warning).
     #
-    # name  - a String name of the variant to set.
+    # name  - a String name of the variant to set, or object with multiple
+    #           names and vals.
     # val   - (optional=null) a value to set. If not included, the variant
     #           is treated as a switch.
     #
     # Returns self for chaining.
     set: (name, val=null) ->
+
+        if typeof name is 'object'
+            for k,v of name
+                @set(k,v)
+            return this
+
         if name[0] is '-'
             console.warn "Variant specified with leading dash ('#{ name }'). The dashes will be added to the class automatically and should not be included in the `VariantList::add` argument."
             name = name.substring(1)
@@ -39,13 +46,20 @@ class Classes
 
     # Public: add a variant if truthy.
     #
-    # name  - a String name of the variant to add.
+    # name  - a String name of the variant to add, or object with multiple
+    #           names and vals.
     # val   - (optional=null) a value to set. If not included or `true`, the
     #           variant is treated as a switch. If included and falsey, the
     #           variant is not added.
     #
     # Returns self for chaining.
     add: (name, val=null) ->
+
+        if typeof name is 'object'
+            for k,v of name
+                @add(k,v)
+            return this
+
         if val or arguments.length is 1
             if val is true
                 val = null

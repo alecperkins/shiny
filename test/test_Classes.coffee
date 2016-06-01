@@ -47,6 +47,16 @@ describe 'Classes', ->
             c.set('group5', 4)
             c.toString().should.equal('InitialClass -group--value -group2--value -group3--true -group4--false -group5--4')
 
+        it 'should take an object for setting multiple variants at once', ->
+            c = new Classes('InitialClass')
+            c.set
+                group: 'value'
+                group2: 'value'
+                group3: true
+                group4: false
+                group5: 4
+            c.toString().should.equal('InitialClass -group--value -group2--value -group3--true -group4--false -group5--4')
+
         it 'should override group-type variants', ->
             c = new Classes('InitialClass')
             c.set('group', 'value1')
@@ -79,6 +89,15 @@ describe 'Classes', ->
             c = new Classes('InitialClass')
             c.add('group', 'value')
             c.toString().should.equal('InitialClass -group--value')
+
+        it 'should take an object for adding multiple variants at once', ->
+            c = new Classes('InitialClass')
+            c.add
+                group: 'value'
+                switch: true
+                group2: ''
+                switch2: false
+            c.toString().should.equal('InitialClass -switch -group--value')
 
         it 'should not add a group-type variant if falsey', ->
             c = new Classes('InitialClass')
